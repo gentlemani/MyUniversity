@@ -21,11 +21,13 @@ class RegisterRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
+    // Posteriormente será todo completo así 'regex:/(\W|^)[\w.\-]{0,25}@(alumnos|docentes|coordinadores)\.udg\.mx(\W|$)/i'
+    // Pero de momento solo está disponible para coordinadores
     public function rules()
     {
         return [
             'nombre' => 'required',
-            'email' => ['required', 'regex:/(\W|^)[\w.\-]{0,25}@(alumnos|docentes|coordinadores)\.udg\.mx(\W|$)/i', 'unique:users'],
+            'email' => ['required', 'regex:/(\W|^)[\w.\-]{0,25}@(coordinadores)\.udg\.mx(\W|$)/i', 'unique:users'],
             'password' => 'required|min:8',
             'password_confirmation' => 'required|same:password',
             'carrera' => 'required',

@@ -20,32 +20,23 @@ class RegisterController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        $user = User::create($request->validated());
-
+        User::create($request->validated());
+        $idCoordinador = DB::table('users')->where('email', $request->email)->value('id');
         $correo = $request->email;
-        $pwd = $request->password;
 
-
+        //se revisa el dominio que se tiene y en base a eso se realizan las inserciones correospondientes.
         if (preg_match('/(\W|^)[\w.\-]{0,25}@(alumnos)\.udg\.mx(\W|$)/i', $correo)) {
-            DB::table('users')->insert([
-                'email' => $correo,
-                'password' => $pwd,
-                'tipo_cuenta' => 'a'
-            ]);
+            //codigo para insertar en la tabla alumno
         } else if (preg_match('/(\W|^)[\w.\-]{0,25}@(coordinadores)\.udg\.mx(\W|$)/i', $correo)) {
-            DB::table('coordinador')->insert([
+            DB::table('coordinadores')->insert([
                 'nombre' => $request->nombre,
                 'carrera' => $request->carrera,
                 'genero' => $request->genero,
                 'codigo_c' => $request->codigo,
-                'email_2' => $correo,
+                'id_2' => $idCoordinador,
             ]);
         } else if (preg_match('/(\W|^)[\w.\-]{0,25}@(docentes)\.udg\.mx(\W|$)/i', $correo)) {
-            DB::table('users')->insert([
-                'email' => $correo,
-                'password' => $pwd,
-                'tipo_cuenta' => 'd'
-            ]);
+            //codigo para insertar en la tabla docentes
         }
         return redirect('/login')->with('succes', 'Account created successfully');
     }

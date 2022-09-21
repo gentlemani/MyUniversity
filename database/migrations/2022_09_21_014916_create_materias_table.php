@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('maestro', function (Blueprint $table) {
+        Schema::create('materias', function (Blueprint $table) {
             $table->string('nombre');
-            $table->string('genero');
-            $table->id('codigo_m');
-            $table->string('codigo_c2');
-            $table->foreign('codigo_c2')->references('codigo_c')->on('coordinador');
-            $table->string('email_3');
-            $table->foreign('email_3')->references('email')->on('users');
+            $table->string('seccion');
+            $table->string('horario');
+            $table->id('nrc');
+            $table->string('codigo_c3');
+            $table->foreign('codigo_c3')->references('codigo_c')->on('coordinadores');
         });
     }
 
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('maestro');
+        Schema::dropIfExists('materias');
     }
 };

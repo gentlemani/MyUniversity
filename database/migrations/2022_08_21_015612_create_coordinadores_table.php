@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('coordinador', function (Blueprint $table) {
+        Schema::create('coordinadores', function (Blueprint $table) {
             $table->string('nombre');
             $table->string('carrera');
             $table->string('genero');
             $table->string('codigo_c')->primary();
-            $table->string('email_2');
-            $table->foreign('email_2')->references('email')->on('users');
+            $table->unsignedBigInteger('id_2');
+            $table->foreign('id_2')->references('id')->on('users');
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('coordinador');
+        Schema::dropIfExists('coordinadores');
     }
 };

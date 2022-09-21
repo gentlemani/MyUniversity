@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('genero');
             $table->id('codigo_m');
             $table->string('codigo_c2');
-            $table->foreign('codigo_c2')->references('codigo_c')->on('coordinador');
-            $table->string('email_3');
-            $table->foreign('email_3')->references('email')->on('users');
+            $table->foreign('codigo_c2')->references('codigo_c')->on('coordinadores');
+            $table->unsignedBigInteger('id_3');
+            $table->foreign('id_3')->references('id')->on('users');
         });
     }
 
