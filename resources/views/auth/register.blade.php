@@ -26,7 +26,7 @@
                         <tr>
                             <th>
                                 <div class="regi">
-                                    <input style="margin-top: 20px;" class="input" value="{{old('email') ?? ''}}" type="email" name="email" placeholder="Correo electronico" required>
+                                    <input style="margin-top: 20px;" class="input" value="{{old('email') ?? ''}}" type="email" name="email" placeholder="Correo electronico">
                                     @error('email')
                                     <i>Ingrese un Correo institucional válido</i>
                                     @enderror
@@ -34,12 +34,12 @@
                             </th>
                             <th>
                                 <div class="regi">
-                                    <select style="background-color: black; " class="input" name="genero">
-                                        <option value="{{old('genero') ?? ''}}">Género</option>
+                                    <select style="background-color: black; " class="input" name="gender">
+                                        <option value="{{old('gender') ?? ''}}">Género</option>
                                         <option value="masculino">Masculino</option>
                                         <option value="femenino">Femenino</option>
                                     </select>
-                                    @error('genero')
+                                    @error('gender')
                                     <i>Ingrese su género</i>
                                     @enderror
                                 </div>
@@ -48,35 +48,26 @@
                         <tr>
                             <th>
                                 <div class="regi">
-                                    <input class="input" type="text" value="{{old('carrera') ?? ''}}" name="carrera" placeholder="Carrera">
-                                    @error('carrera')
+                                    <input class="input" type="text" value="{{old('degree') ?? ''}}" name="degree" placeholder="Carrera">
+                                    @error('degree')
                                     <i>Ingrese Carrera a la que pertenece</i>
                                     @enderror
                                 </div>
                             </th>
                             <th>
                                 <div class="regi">
-                                    <input class="input" type="text" value="{{old('nombre') ?? ''}}" name="nombre" placeholder="Nombre">
-                                    @error('nombre')
+                                    <input class="input" type="text" value="{{old('name') ?? ''}}" name="name" placeholder="Nombre">
+                                    @error('name')
                                     <i>Ingrese un Nombre</i>
                                     @enderror
                                 </div>
                             </th>
                         </tr>
-                        <tr>
-                            <th>
-                                <div class="regi">
-                                    <input class="input" type="text" value="{{old('codigo') ?? ''}}" name="codigo" placeholder="Codigo">
-                                    @error('codigo')
-                                    <i>Ingrese un nuevo código de coordinador</i>
-                                    @enderror
-                                </div>
-                            </th>
                         </tr>
                         <tr>
                             <th>
                                 <div class="regi">
-                                    <input class="input" type="password" name="password" placeholder="Contraseña" required>
+                                    <input class="input" type="password" name="password" placeholder="Contraseña">
                                     @error('password')
                                     <i>Ingrese una Contraseña con mínimo 8 caracteres</i>
                                     @enderror
@@ -84,7 +75,7 @@
                             </th>
                             <th>
                                 <div class="regi">
-                                    <input class="input" type="password" name="password_confirmation" placeholder="Confirmar contraseña" required>
+                                    <input class="input" type="password" name="password_confirmation" placeholder="Confirmar contraseña">
                                     @error('password_confirmation')
                                     <i>Ambas contraseñas deben ser iguales</i>
                                     @enderror

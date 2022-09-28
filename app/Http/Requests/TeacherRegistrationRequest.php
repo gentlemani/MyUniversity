@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class TeacherRegistrationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,17 +21,26 @@ class RegisterRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    // Posteriormente será todo completo así 'regex:/(\W|^)[\w.\-]{0,25}@(alumnos|docentes|coordinadores)\.udg\.mx(\W|$)/i'
-    // Pero de momento solo está disponible para coordinadores
     public function rules()
     {
         return [
             'name' => 'required',
-            'email' => ['required', 'regex:/(\W|^)[\w.\-]{0,25}@(coordinadores)\.udg\.mx(\W|$)/i', 'unique:users'],
-            'password' => 'required|min:8',
-            'password_confirmation' => 'required|same:password',
-            'degree' => 'required',
             'gender' => 'required',
         ];
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($validator->errors()->isNotEmpty()) {
+                $validator->errors()->add('teachers', 'Errors!');
+            }
+        });
     }
 }

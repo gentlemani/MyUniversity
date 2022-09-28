@@ -91,3 +91,15 @@ body{
     backface-visibility: hidden;
     transition: transform .6s ease-in-out;
 }
+
+.btn-transparent{
+    border: transparent;
+    background-color: transparent;
+    color: #f1f1f1;
+}
+
+.input_bus{
+    border: transparent;
+    border-radius: 5px;
+    width: 500px;
+}

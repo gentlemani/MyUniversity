@@ -26,5 +26,8 @@ Route::get('/login', [LoginController::class, 'show']);
 Route::post('/login', [LoginController::class, 'login']);
 
 Route::get('/home', [HomeController::class, 'index']);
+Route::post('/home/studentRegistration', [HomeController::class, 'studentRegistration']);
+Route::post('/home/teacherRegistration', [HomeController::class, 'teacherRegistration']);
+Route::post('/home/subjectRegistration', [HomeController::class, 'subjectRegistration']);
 
 Route::get('/logout', [LogoutController::class, 'logout']);
