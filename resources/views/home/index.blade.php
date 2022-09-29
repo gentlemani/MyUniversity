@@ -41,7 +41,7 @@
 
 				<div class="footer">
 					<p style="font-size: small;">
-						MyUniversity es un sistema de uso academico creado por Robinson Ian Cabrera Hernandez, Perez Garcia Cristian Rolando, Hernandez Michel Jose Luis
+						MyUniversity es un sistema de uso académico creado por Robinson Ian Cabrera Hernandez, Perez Garcia Cristian Rolando, Hernandez Michel Jose Luis
 					</p>
 				</div>
 
@@ -51,8 +51,8 @@
 		<div class="cont-am">
 			<div id="contenido" class="p-4 p-md-5 pt-5">
 				<h1 class="mb-4">Coordinación</h1>
-				<h3>Sistema de gestión de Alumnos Y docentes dentro de esta institucion MyUniversity</h3> <br><br>
-				<p style="color: black;">La coordinación está en cargada de la administración del cuerpo estudiantil y docente, además del manejo de las materias impartidas en MyUniversity, esta institución se toma muy en serio la educación y el bienestar de los alumnos,
+				<h3>Sistema de gestión de Alumnos Y docentes dentro de esta institución MyUniversity</h3> <br><br>
+				<p style="color: black;">La coordinación está encargada de la administración del cuerpo estudiantil y docente, además del manejo de las materias impartidas en MyUniversity. Esta institución se toma muy en serio la educación y el bienestar de los alumnos,
 					tomando en cuenta el desempeño y preparación de los docentes.
 				</p>
 			</div>
@@ -88,10 +88,14 @@
 					<br><br><button class="btn btn-success">Enviar</button><br><br>
 				</form>
 				<h2>Búsqueda de alumno</h2>
-				<div class="input-group mb-3">
-					<input class="input_bus" type="text" placeholder="Código del alumno" style="color: black;">
-					<button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
-				</div>
+				<form action="/home/studentSearch" method="post">
+					@csrf
+					<div class="input-group mb-3">
+						<input class="input_bus" type="text" placeholder="Nombre del alumno" style="color: black;" name="name">
+						<button class="btn btn-outline-secondary" id="button-addon2">Buscar</button>
+
+					</div>
+				</form>
 
 				<br><br>
 				<table class="table table-dark">
@@ -100,6 +104,19 @@
 						<th>Nombre del Alumno</th>
 						<th>Dar de baja</th>
 					</tr>
+
+					@if ($searchStudent)
+					<script>
+						visible_alum()
+					</script>
+					@foreach ($searchStudent as $student )
+					<tr class="table-active">
+						<th>{{$student->id}}</th>
+						<th>{{$student->name}}</th>
+						<th><a href="/home/eliminarStudent/{{$student->id}}">Eliminar</a></th>
+					</tr>
+					@endforeach
+					@endif
 				</table>
 			</div>
 			<div id="sec_prof" class="p-4 p-md pt-5" style="display: none;">
@@ -131,20 +148,36 @@
 					<br><br><button class="btn btn-success">Enviar</button><br><br>
 				</form>
 				<h2>Búsqueda de profesor</h2>
-				<div class="input-group mb-3">
-					<input class="input_bus" type="text" placeholder="Código del Profesor" style="color: black;">
-					<button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
-				</div>
+				<form action="/home/teacherSearch" method="post">
+					@csrf
+					<div class="input-group mb-3">
+						<input class="input_bus" type="text" placeholder="Nombre del Profesor" style="color: black;" name="name">
+						<button class="btn btn-outline-secondary" id="button-addon2">Buscar</button>
+					</div>
+				</form>
 
 				<br><br>
 				<table class="table table-dark">
 					<tr class="table-active">
 						<td>Código del profesor</td>
 						<td>Nombre del Profesor</td>
-						<td>Género</td>
 						<td>Dar de baja</td>
+						<!-- <td>Dar de baja</td> -->
 					</tr>
+					@if ($searchTeacher)
+					<script>
+						visible_prof()
+					</script>
+					@foreach ($searchTeacher as $teacher )
+					<tr class="table-active">
+						<th>{{$teacher->id}}</th>
+						<th>{{$teacher->name}}</th>
+						<th><a href="/home/eliminarTeacher/{{$teacher->id}}">Eliminar</a></th>
+					</tr>
+					@endforeach
+					@endif
 				</table>
+
 			</div>
 			<div id="sec_mat" class="p-4 p-md pt-5" style="display: none;">
 				<h1 class="mb-4">Gestión de Materias</h1>
@@ -166,10 +199,13 @@
 					<br><br><button class="btn btn-success">Enviar</button><br><br>
 				</form>
 				<h2>Búsqueda de Materias</h2>
-				<div class="input-group mb-3">
-					<input class="input_bus" type="text" placeholder="NRC de la materia" style="color: black;">
-					<button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
-				</div>
+				<form action="" method="post">
+					@csrf
+					<div class="input-group mb-3">
+						<input class="input_bus" type="text" placeholder="NRC de la materia" style="color: black;">
+						<button class="btn btn-outline-secondary" id="button-addon2">Buscar</button>
+					</div>
+				</form>
 
 				<br><br>
 				<table class="table table-dark">
@@ -184,15 +220,15 @@
 				</table>
 			</div>
 			<div id="sec_cont" class="p-4 p-md pt-5" style="display: none;">
-				<span class="fa fa-user mr-2"></span>
+				<span class="fa fa-teacher mr-2"></span>
 				<h4>Robinson Ian Cabrera Hernandez</h4><br>
 				<span class="fa fa-phone mr-2"></span>
 				<h4>3312456587</h4><br>
-				<span class="fa fa-user mr-2"></span>
+				<span class="fa fa-teacher mr-2"></span>
 				<h4>Perez Garcia Cristian Rolando</h4><br>
 				<span class="fa fa-phone mr-2"></span>
 				<h4>3313546891</h4><br>
-				<span class="fa fa-user mr-2"></span>
+				<span class="fa fa-teacher mr-2"></span>
 				<h4>Hernandez Michel Jose Luis</h4><br>
 				<span class="fa fa-phone mr-2"></span>
 				<h4>3313206548</h4><br>

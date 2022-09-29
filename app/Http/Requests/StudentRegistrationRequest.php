@@ -27,7 +27,7 @@ class StudentRegistrationRequest extends FormRequest
         return [
             'name' => 'required',
             'degree' => 'required|exists:coordinators,degree',
-            'semester' => 'required|numeric|max:3',
+            'semester' => 'required|numeric|max:17',
         ];
     }
     /**

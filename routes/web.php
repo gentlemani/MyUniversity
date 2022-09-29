@@ -29,5 +29,11 @@ Route::get('/home', [HomeController::class, 'index']);
 Route::post('/home/studentRegistration', [HomeController::class, 'studentRegistration']);
 Route::post('/home/teacherRegistration', [HomeController::class, 'teacherRegistration']);
 Route::post('/home/subjectRegistration', [HomeController::class, 'subjectRegistration']);
+Route::post('/home/studentSearch', [HomeController::class, 'studentSearch']);
+Route::post('/home/teacherSearch', [HomeController::class, 'teacherSearch']);
+Route::post('/home/subjectSearch', [HomeController::class, 'subjectSearch']);
+Route::get('/home/eliminarTeacher/{id}', [HomeController::class, 'eliminateTeacher']);
+Route::get('/home/eliminarStudent/{id}', [HomeController::class, 'eliminateStudent']);
+Route::get('/home/eliminarSubject/{id}', [HomeController::class, 'eliminateSubject']);
 
 Route::get('/logout', [LogoutController::class, 'logout']);
