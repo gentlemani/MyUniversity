@@ -24,7 +24,18 @@ class SubjectRegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+            'section' => 'required',
+            'schedule' => 'required',
+            'clave' => 'required',
         ];
+    }
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($validator->errors()->isNotEmpty()) {
+                $validator->errors()->add('subjects', 'Errors!');
+            }
+        });
     }
 }

@@ -26,7 +26,7 @@
                         <tr>
                             <th>
                                 <div class="regi">
-                                    <input style="margin-top: 20px;" class="input" value="{{old('email') ?? ''}}" type="email" name="email" placeholder="Correo electronico">
+                                    <input style="margin-top: 20px;" class="input" value="{{old('email') ?? ''}}" type="email" name="email" placeholder="Correo electrónico">
                                     @error('email')
                                     <i>Ingrese un Correo institucional válido</i>
                                     @enderror

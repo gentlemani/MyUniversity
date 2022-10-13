@@ -20,6 +20,8 @@ class HomeController extends Controller
         $searchStudent = $request->session()->get('searchStudent');
         $searchTeacher = $request->session()->get('searchTeacher');
         $searchSubject = $request->session()->get('searchSubject');
+        // dd($searchSubject, $request);
+
         return view('home.index', compact('searchStudent', 'searchTeacher', 'searchSubject'));
     }
 
@@ -49,34 +51,30 @@ class HomeController extends Controller
         $iduser = Auth::id();
         DB::table('subjects')->insertGetId([
             'name' => $request->name,
-            'gender' => $request->gender,
+            'section' => $request->section,
+            'schedule' => $request->schedule,
+            'clave' => $request->clave,
             'id_coordinator3' => $iduser,
         ]);
         return redirect()->action([HomeController::class, 'index']);
     }
     public function studentSearch(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-        ]);
         $searchStudent = DB::table('students')->where('name', 'LIKE', '%' . $request->name . '%')->get();
+        $searchStudent->consultaRealizada = true;
         return redirect(self::HOME)->with(compact('searchStudent'));
     }
 
     public function teacherSearch(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-        ]);
         $searchTeacher = DB::table('teachers')->where('name', 'LIKE', '%' . $request->name . '%')->get();
+        $searchTeacher->consultaRealizada = true;
         return redirect(self::HOME)->with(compact('searchTeacher'));
     }
     public function subjectSearch(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-        ]);
         $searchSubject = DB::table('subjects')->where('name', 'LIKE', '%' . $request->name . '%')->get();
+        $searchSubject->consultaRealizada = true;
         return redirect(self::HOME)->with(compact('searchSubject'));
     }
     public function eliminateTeacher($id)

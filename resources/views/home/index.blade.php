@@ -14,7 +14,21 @@
 </head>
 
 <body>
-
+	@if ($searchSubject and $searchSubject->consultaRealizada)
+	<script>
+		visible_mat()
+	</script>
+	@endif
+	@if ($searchStudent and $searchStudent->consultaRealizada)
+	<script>
+		visible_alum()
+	</script>
+	@endif
+	@if ($searchTeacher and $searchTeacher->consultaRealizada)
+	<script>
+		visible_prof()
+	</script>
+	@endif
 	<div class="container d-flex align-items-stretch">
 		<nav id="sidebar">
 			<div class="p-4">
@@ -102,6 +116,7 @@
 					<tr class="table-active">
 						<th>Código del Alumno</th>
 						<th>Nombre del Alumno</th>
+						<th>Semestre del Alumno</th>
 						<th>Dar de baja</th>
 					</tr>
 
@@ -113,6 +128,7 @@
 					<tr class="table-active">
 						<th>{{$student->id}}</th>
 						<th>{{$student->name}}</th>
+						<th>{{$student->semester}}</th>
 						<th><a href="/home/eliminarStudent/{{$student->id}}">Eliminar</a></th>
 					</tr>
 					@endforeach
@@ -136,7 +152,6 @@
 						@if ($errors->has('teachers') and $errors->has('name'))
 						<i>Ingrese un nombre</i><br>
 						@endif
-
 						<label for="Carrera" style="color: black; font-size: large;">Género</label><br>
 						<input type="text" placeholder="Género" class="input_bus" name="gender" @if ($errors->has('teachers')) value="{{old('gender') ?? ''}}"
 						@endif> <br>
@@ -182,27 +197,47 @@
 			<div id="sec_mat" class="p-4 p-md pt-5" style="display: none;">
 				<h1 class="mb-4">Gestión de Materias</h1>
 				<h2>Alta de Materias</h2>
-				<form>
+				<form method="POST" action="/home/subjectRegistration">
 					@csrf
+					@if ($errors->has('subjects'))
+
+					<script>
+						visible_mat()
+					</script>
+					@endif
 					<div>
 						<br><label for="Clave" style="color: black; font-size: large;">Clave de materia</label> <br>
-						<input type="text" placeholder="Clave de la materia" class="input_bus"><br>
-						<label for="Nrc" style="color: black; font-size: large;">NRC de la materia</label> <br>
-						<input type="text" placeholder="NRC de la materia" class="input_bus"><br>
+						<input type="text" placeholder="Clave de la materia" class="input_bus" name="clave" @if ($errors->has('subjects')) value="{{old('clave') ?? ''}}"
+						@endif ><br>
+						@if ($errors->has('subjects') and $errors->has('clave'))
+						<i>Ingrese la clave de la materia</i><br>
+						@endif
 						<label for="Nombre de la materia" style="color: black; font-size: large;">Nombre de la materia</label><br>
-						<input type="text" placeholder="Nombre de la materia" class="input_bus"> <br>
+						<input type="text" placeholder="Nombre de la materia" class="input_bus" name="name" @if ($errors->has('subjects')) value="{{old('name') ?? ''}}"
+						@endif > <br>
+						@if ($errors->has('subjects') and $errors->has('name'))
+						<i>Ingrese el nombre de la materia</i><br>
+						@endif
 						<label for="Seccion" style="color: black; font-size: large;">Sección de la materia</label><br>
-						<input type="text" placeholder="Sección de la materia" class="input_bus"> <br>
+						<input type="text" placeholder="Sección de la materia" class="input_bus" name="section" @if ($errors->has('subjects')) value="{{old('section') ?? ''}}"
+						@endif > <br>
+						@if ($errors->has('subjects') and $errors->has('section'))
+						<i>Ingrese el nombre de la sección</i><br>
+						@endif
 						<label for="horario de la materia" style="color: black; font-size: large;">Horario de la materia</label><br>
-						<input type="text" placeholder="Horario de la materia" class="input_bus"> <br>
+						<input type="text" placeholder="Horario de la materia" class="input_bus" name="schedule" @if ($errors->has('subjects')) value="{{old('schedule') ?? ''}}"
+						@endif > <br>
+						@if ($errors->has('subjects') and $errors->has('schedule'))
+						<i>Ingrese un horario</i><br>
+						@endif
 					</div>
 					<br><br><button class="btn btn-success">Enviar</button><br><br>
 				</form>
 				<h2>Búsqueda de Materias</h2>
-				<form action="" method="post">
+				<form action="/home/subjectSearch" method="post">
 					@csrf
 					<div class="input-group mb-3">
-						<input class="input_bus" type="text" placeholder="NRC de la materia" style="color: black;">
+						<input class="input_bus" type="text" placeholder="Nombre de la materia" style="color: black;" name="name">
 						<button class="btn btn-outline-secondary" id="button-addon2">Buscar</button>
 					</div>
 				</form>
@@ -210,13 +245,28 @@
 				<br><br>
 				<table class="table table-dark">
 					<tr class="table-active">
+						<th>ID</th>
 						<th>Clave de la materia</th>
-						<th>NRC de la materia</th>
 						<th>Nombre de la materia</th>
 						<th>Sección de la materia</th>
 						<th>Horario de la materia</th>
 						<th>Dar de baja</th>
 					</tr>
+					@if ($searchSubject)
+					<script>
+						visible_mat()
+					</script>
+					@foreach ($searchSubject as $subject )
+					<tr class="table-active">
+						<th>{{$subject->id}}</th>
+						<th>{{$subject->clave}}</th>
+						<th>{{$subject->name}}</th>
+						<th>{{$subject->section}}</th>
+						<th>{{$subject->schedule}}</th>
+						<th><a href="/home/eliminarSubject/{{$subject->id}}">Eliminar</a></th>
+					</tr>
+					@endforeach
+					@endif
 				</table>
 			</div>
 			<div id="sec_cont" class="p-4 p-md pt-5" style="display: none;">

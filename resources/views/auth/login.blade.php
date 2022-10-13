@@ -13,11 +13,11 @@
 <body>
     <div id="log-div">
         <div id="log-hori">
-            <a href="login.html">
+            <a href="/login">
                 <img class="log-logo" src="/registro01/images/leones.png" alt="logo">
             </a>
-            <h3 id="log-reg"> Aun no tienes cuenta?</h3>
-            <p id="reg-inf"> Si formas parte de la universidad <br> y aun no tienes cuenta registrate dando <br> click en el siguiente boton </p>
+            <h3 id="log-reg"> Aún no tienes cuenta?</h3>
+            <p id="reg-inf"> Si formas parte de la universidad <br> y aún no tienes cuenta, registrate dando <br> click en el siguiente botón </p>
             <div class="wrap">
                 <a href="/register">
                     <button class="button">Registrate</button>
