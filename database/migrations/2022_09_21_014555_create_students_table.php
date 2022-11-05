@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('name');
             $table->integer('semester');
             $table->string('degree');
-            $table->unsignedBigInteger('id_coordinator2');
-            $table->foreign('id_coordinator2')->references('id')->on('coordinators');
+            // $table->unsignedBigInteger('id_coordinator2');
+            // $table->foreign('id_coordinator2')->references('id')->on('coordinators');
+            $table->foreignId('coordinator_id')->constrained();
         });
     }
 

@@ -5,92 +5,90 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StudentRegistrationRequest;
 use App\Http\Requests\SubjectRegistrationRequest;
 use App\Http\Requests\TeacherRegistrationRequest;
+use App\Models\Student;
+use App\Models\Subject;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    const HOME = '/home';
+    const HOME = '/coordinador';
     public function index(Request $request)
     {
         if (!Auth::check()) {
             return redirect('/login');
         }
+        if (preg_match("/(\W|^)[\w.\-]{0,25}@(coordinadores)\.udg\.mx(\W|$)/i", Auth::user()->email) === 0) {
+            return redirect('/login');
+        }
         $searchStudent = $request->session()->get('searchStudent');
         $searchTeacher = $request->session()->get('searchTeacher');
         $searchSubject = $request->session()->get('searchSubject');
-        // dd($searchSubject, $request);
 
-        return view('home.index', compact('searchStudent', 'searchTeacher', 'searchSubject'));
+        return view('home.indexCoordinator', compact('searchStudent', 'searchTeacher', 'searchSubject'));
     }
 
     public function studentRegistration(StudentRegistrationRequest $request)
     {
-        $iduser = Auth::id();
-        DB::table('students')->insertGetId([
-            'name' => $request->name,
-            'semester' => $request->semester,
-            'degree' => $request->degree,
-            'id_coordinator2' => $iduser,
-        ]);
+        $request->merge(['coordinator_id' => Auth::id()]);
+        Student::create($request->all());
         return redirect()->action([HomeController::class, 'index']);
     }
     public function teacherRegistration(TeacherRegistrationRequest $request)
     {
-        $iduser = Auth::id();
-        DB::table('teachers')->insertGetId([
-            'name' => $request->name,
-            'gender' => $request->gender,
-            'id_coordinator4' => $iduser,
-        ]);
+        $request->merge(['coordinator_id' => Auth::id()]);
+        Teacher::create($request->all());
         return redirect()->action([HomeController::class, 'index']);
     }
     public function subjectRegistration(SubjectRegistrationRequest $request)
     {
-        $iduser = Auth::id();
-        DB::table('subjects')->insertGetId([
-            'name' => $request->name,
-            'section' => $request->section,
-            'schedule' => $request->schedule,
-            'clave' => $request->clave,
-            'id_coordinator3' => $iduser,
-        ]);
+        $request->merge(['coordinator_id' => Auth::id()]);
+        Subject::create($request->all());
         return redirect()->action([HomeController::class, 'index']);
     }
     public function studentSearch(Request $request)
     {
-        $searchStudent = DB::table('students')->where('name', 'LIKE', '%' . $request->name . '%')->get();
+        $searchStudent = Student::where('name', 'LIKE', '%' . $request->name . '%')->get();
         $searchStudent->consultaRealizada = true;
         return redirect(self::HOME)->with(compact('searchStudent'));
     }
 
     public function teacherSearch(Request $request)
     {
-        $searchTeacher = DB::table('teachers')->where('name', 'LIKE', '%' . $request->name . '%')->get();
+        $searchTeacher = Teacher::where('name', 'LIKE', '%' . $request->name . '%')->get();
         $searchTeacher->consultaRealizada = true;
         return redirect(self::HOME)->with(compact('searchTeacher'));
     }
     public function subjectSearch(Request $request)
     {
-        $searchSubject = DB::table('subjects')->where('name', 'LIKE', '%' . $request->name . '%')->get();
+        $searchSubject = Subject::where('name', 'LIKE', '%' . $request->name . '%')->get();
         $searchSubject->consultaRealizada = true;
         return redirect(self::HOME)->with(compact('searchSubject'));
     }
     public function eliminateTeacher($id)
     {
-        DB::table('teachers')->where('id', $id)->delete();
+        $teacher = Teacher::find($id);
+        $teacher->delete();
         return redirect(self::HOME);
     }
 
     public function eliminateStudent($id)
     {
-        DB::table('students')->where('id', $id)->delete();
+        $student = Student::find($id);
+        $student->delete();
         return redirect(self::HOME);
     }
     public function eliminateSubject($id)
     {
-        DB::table('subjects')->where('id', $id)->delete();
+        $subject = Subject::find($id);
+        $subject->delete();
+        return redirect(self::HOME);
+    }
+
+    public function enrollStudent($id)
+    {
         return redirect(self::HOME);
     }
 }

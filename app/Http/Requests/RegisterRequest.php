@@ -27,7 +27,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => ['required', 'regex:/(\W|^)[\w.\-]{0,25}@(coordinadores)\.udg\.mx(\W|$)/i', 'unique:users'],
+            'email' => ['required', 'regex:/(\W|^)[\w.\-]{0,25}@(coordinadores|docentes)\.udg\.mx(\W|$)/i', 'unique:users'],
             'password' => 'required|min:8',
             'password_confirmation' => 'required|same:password',
             'degree' => 'required',
