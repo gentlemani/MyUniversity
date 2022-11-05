@@ -20,6 +20,8 @@ class User extends Authenticatable
     protected $fillable = [
         'email',
         'password',
+        'userable_id',
+        'userable_type',
     ];
 
     /**
@@ -46,9 +48,8 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($value);
     }
     //One To One relation
-    public function coordinator()
-
+    public function userable()
     {
-        return $this->hasOne(Coordinator::class);
+        return $this->morphTo();
     }
 }

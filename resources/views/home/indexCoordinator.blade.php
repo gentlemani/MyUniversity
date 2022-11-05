@@ -97,6 +97,25 @@
 						@if ($errors->has('students') and $errors->has('degree'))
 						<i>Ingrese una carrera existente</i><br>
 						@endif
+						<label for="email" style="color: black; font-size: large;">Correo</label><br>
+						<input type="text" placeholder="Correo" class="input_bus" name="email" @if ($errors->has('students')) value="{{old('email') ?? ''}}"
+						@endif> <br>
+						@if ($errors->has('students') and $errors->has('email'))
+						<i>Ingrese un correo con valido. Ejemplo fulanito@alumnos.udg.mx</i><br>
+
+						@endif
+						<label for="password" style="color: black; font-size: large;">Contraseña</label><br>
+						<input type="password" placeholder="Contraseña" class="input_bus" name="password" @if ($errors->has('students')) value="{{old('password') ?? ''}}"
+						@endif> <br>
+						@if ($errors->has('students') and $errors->has('password'))
+						<i>Ingrese una contraseña mayor a 8 caracteres</i><br>
+
+						@endif<label for="password_confirmation" style="color: black; font-size: large;">Confirmar contraseña</label><br>
+						<input type="password" placeholder="Confirmar contraseña" class="input_bus" name="password_confirmation" @if ($errors->has('students')) value="{{old('password_confirmation') ?? ''}}"
+						@endif> <br>
+						@if ($errors->has('students') and $errors->has('password_confirmation'))
+						<i>Las contraseñas no coinciden</i><br>
+						@endif
 					</div>
 
 					<br><br><button class="btn btn-success">Enviar</button><br><br>
@@ -152,12 +171,34 @@
 						@if ($errors->has('teachers') and $errors->has('name'))
 						<i>Ingrese un nombre</i><br>
 						@endif
-						<label for="Carrera" style="color: black; font-size: large;">Género</label><br>
-						<input type="text" placeholder="Género" class="input_bus" name="gender" @if ($errors->has('teachers')) value="{{old('gender') ?? ''}}"
-						@endif> <br>
+						<label for="Genero" style="color: black; font-size: large;">Género</label><br>
+						<select class="input" name="gender">
+							<option value="{{old('gender') ?? ''}}">Género</option>
+							<option value="Masculino">Masculino</option>
+							<option value="Femenino">Femenino</option>
+						</select><br>
 						@if ($errors->has('teachers') and $errors->has('gender'))
 						<i>Ingrese su género</i><br>
 
+						@endif
+						<label for="email" style="color: black; font-size: large;">Correo</label><br>
+						<input type="text" placeholder="Correo" class="input_bus" name="email" @if ($errors->has('teachers')) value="{{old('email') ?? ''}}"
+						@endif> <br>
+						@if ($errors->has('teachers') and $errors->has('email'))
+						<i>Ingrese un correo válido. Ejemplo fulanito@docentes.udg.mx</i><br>
+
+						@endif
+						<label for="password" style="color: black; font-size: large;">Contraseña</label><br>
+						<input type="password" placeholder="Contraseña" class="input_bus" name="password" @if ($errors->has('teachers')) value="{{old('password') ?? ''}}"
+						@endif> <br>
+						@if ($errors->has('teachers') and $errors->has('password'))
+						<i>Ingrese una contraseña mayor a 8 caracteres</i><br>
+
+						@endif<label for="password_confirmation" style="color: black; font-size: large;">Confirmar contraseña</label><br>
+						<input type="password" placeholder="Confirmar contraseña" class="input_bus" name="password_confirmation" @if ($errors->has('teachers')) value="{{old('password_confirmation') ?? ''}}"
+						@endif> <br>
+						@if ($errors->has('teachers') and $errors->has('password_confirmation'))
+						<i>Las contraseñas no coinciden</i><br>
 						@endif
 					</div>
 					<br><br><button class="btn btn-success">Enviar</button><br><br>

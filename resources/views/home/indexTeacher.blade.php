@@ -13,21 +13,6 @@
 </head>
 
 <body>
-    @if ($searchSubject and $searchSubject->consultaRealizada)
-    <script>
-        visible_mat()
-    </script>
-    @endif
-    @if ($searchStudent and $searchStudent->consultaRealizada)
-    <script>
-        visible_alum()
-    </script>
-    @endif
-    @if ($searchStudent and $searchSubject->consultaRealizada)
-    <script>
-        visible_trabajos()
-    </script>
-    @endif
     <div class="container d-flex align-items-stretch">
         <nav id="sidebar">
             <div class="p-4">
@@ -115,19 +100,7 @@
                         <th>Dar de baja</th>
                     </tr>
 
-                    @if ($searchStudent)
-                    <script>
-                        visible_alum()
-                    </script>
-                    @foreach ($searchStudent as $student )
-                    <tr class="table-active">
-                        <th>{{$student->id}}</th>
-                        <th>{{$student->name}}</th>
-                        <th>{{$student->score}}</th>
-                        <th><a href="/home/eliminarStudent/{{$student->id}}">Eliminar</a></th>
-                    </tr>
-                    @endforeach
-                    @endif
+
                 </table>
             </div>
             <div id="sec_mat" class="p-4 p-md pt-5" style="display: none;">
@@ -143,8 +116,8 @@
 
                     <div class="select">
                         <br><label id="firstname" for="Nombre de la materia">Materias:</label></br>
-                        <select name="subject_name" id="subject_name">
-                            <option value="" disable selected>Seleccione una Materia</option>
+                        <select name="subject_id" id="subject_id">
+                            <option value="" selected>Seleccione una Materia</option>
                             @foreach($subjects as $subject)
                             <option value="{{$subject->id}}">{{$subject->name}}</option>
                             @endforeach
@@ -172,18 +145,7 @@
                         <th>Nombre de la materia</th>
                         <th>Eliminar</th>
                     </tr>
-                    @if ($searchSubject)
-                    <script>
-                        visible_mat()
-                    </script>
-                    @foreach ($searchSubject as $subject )
-                    <tr class="table-active">
-                        <th>{{$subject->id}}</th>
-                        <th>{{$subject->name}}</th>
-                        <th><a href="/home/eliminarSubject/{{$subject->id}}">Eliminar</a></th>
-                    </tr>
-                    @endforeach
-                    @endif
+
                 </table>
             </div>
             <div id="sec_trabajos" class="p-4 p-md pt-5" style="display: none;">
@@ -230,19 +192,7 @@
                         <th>Fecha del Trabajo</th>
                         <th>Eliminar Trabajo</th>
                     </tr>
-                    @if ($searchSubject)
-                    <script>
-                        visible_trabajos()
-                    </script>
-                    @foreach ($searchSubject as $subject )
-                    <tr class="table-active">
-                        <th>{{$subject->id}}</th>
-                        <th>{{$subject->name}}</th>
-                        <th>{{$subject->date}}</th>
-                        <th><a href="/home/eliminarSubject/{{$subject->id}}">Eliminar</a></th>
-                    </tr>
-                    @endforeach
-                    @endif
+
                 </table>
             </div>
             <div id="sec_cont" class="p-4 p-md pt-5" style="display: none;">

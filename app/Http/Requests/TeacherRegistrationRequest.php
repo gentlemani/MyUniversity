@@ -26,6 +26,9 @@ class TeacherRegistrationRequest extends FormRequest
         return [
             'name' => 'required',
             'gender' => 'required',
+            'email' => ['required', 'regex:/(\W|^)[\w.\-]{0,25}@(docentes)\.udg\.mx(\W|$)/i', 'unique:users'],
+            'password' => 'required|min:8',
+            'password_confirmation' => 'required|same:password',
         ];
     }
 

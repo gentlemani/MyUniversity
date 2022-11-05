@@ -18,4 +18,10 @@ class Student extends Model
     {
         return $this->morphToMany(Subject::class, 'subjectable');
     }
+
+    //Relacion uno a uno
+    public function user()
+    {
+        return $this->morphOne(User::class, 'userable');
+    }
 }

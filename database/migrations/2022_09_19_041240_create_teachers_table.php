@@ -17,9 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('gender');
-            // $table->unsignedBigInteger('id_coordinator4');
-            // $table->foreign('id_coordinator4')->references('id')->on('coordinators');
-            $table->foreignId('coordinator_id')->constrained();
+            $table->foreignId('coordinator_id')->constrained()->onDelete('cascade');
         });
     }
 

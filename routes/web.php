@@ -67,6 +67,7 @@ Rutas para el docente
 */
 
 Route::get('/docente', [TeacherController::class, 'index']);
+Route::post('/docente/subjectRegistration', [TeacherController::class, 'subjectEnroll']);
 
 /*
 ------------------------------------------------------------------------------------------------------
@@ -75,3 +76,4 @@ Route::get('/docente', [TeacherController::class, 'index']);
 */
 
 Route::get('/alumno', [StudentController::class, 'index']);
+Route::post('/alumno/subjectRegistration', [StudentController::class, 'subjectEnroll']);

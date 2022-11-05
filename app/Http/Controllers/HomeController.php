@@ -33,23 +33,24 @@ class HomeController extends Controller
 
     public function studentRegistration(StudentRegistrationRequest $request)
     {
-
-        $coordinator = User::find(Auth::id())->coordinator;
-        $request->merge(['coordinator_id' => $coordinator->id]);
-        Student::create($request->all());
+        $coordinatorId = User::find(Auth::id())->userable->id;
+        $request->merge(['coordinator_id' => $coordinatorId]);
+        $student = Student::create($request->all());
+        $student->user()->create($request->all());
         return redirect(self::HOME);
     }
     public function teacherRegistration(TeacherRegistrationRequest $request)
     {
-        $coordinator = User::find(Auth::id())->coordinator;
-        $request->merge(['coordinator_id' => $coordinator->id]);
-        Teacher::create($request->all());
+        $coordinatorId = User::find(Auth::id())->userable->id;
+        $request->merge(['coordinator_id' => $coordinatorId]);
+        $teacher = Teacher::create($request->all());
+        $teacher->user()->create($request->all());
         return redirect(self::HOME);
     }
     public function subjectRegistration(SubjectRegistrationRequest $request)
     {
-        $coordinator = User::find(Auth::id())->coordinator;
-        $request->merge(['coordinator_id' => $coordinator->id]);
+        $coordinatorId = User::find(Auth::id())->userable->id;
+        $request->merge(['coordinator_id' => $coordinatorId]);
         Subject::create($request->all());
         return redirect(self::HOME);
     }

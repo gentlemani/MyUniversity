@@ -28,6 +28,9 @@ class StudentRegistrationRequest extends FormRequest
             'name' => 'required',
             'degree' => 'required|exists:coordinators,degree',
             'semester' => 'required|numeric|max:16',
+            'email' => ['required', 'regex:/(\W|^)[\w.\-]{0,25}@(alumnos)\.udg\.mx(\W|$)/i', 'unique:users'],
+            'password' => 'required|min:8',
+            'password_confirmation' => 'required|same:password',
         ];
     }
     /**

@@ -15,8 +15,18 @@
 
 <body>
     <h1>Alumno</h1>
-    <form action="" method="post">
-        <input type="text">
+    <form action="/alumno/subjectRegistration" method="post">
+        @csrf
+        <select name="subject_id" id="subject_id">
+            <option value="" selected>Seleccione una Materia</option>
+            @foreach($subjects as $subject)
+            <option value="{{$subject->id}}">{{$subject->name}}</option>
+            @endforeach
+        </select>
+        <div id="resultadoP">
+            <!--Se pone el horario de la materia-->
+        </div>
+        <input type="submit" value="Enviar">
     </form>
 </body>
 
