@@ -11,12 +11,15 @@ class Subject extends Model
     public $timestamps = false;
 
     protected $fillable = ['name', 'section', 'schedule', 'coordinator_id', 'clave'];
+
+
+    //Relación Polimorfica Muchos a Muchos
     public function teachers()
     {
-        return $this->belongsToMany(Teacher::class);
+        return $this->morphedByMany(Teacher::class, 'subjectable');
     }
     public function students()
     {
-        return $this->belongsToMany(Student::class);
+        return $this->morphedByMany(Student::class, 'subjectable');
     }
 }

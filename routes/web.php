@@ -20,6 +20,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+------------------------------------------------------------------------------------------------------
+Rutas para login, registro y loguot
+------------------------------------------------------------------------------------------------------
+*/
+
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/register', [RegisterController::class, 'show']);
@@ -27,8 +33,22 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 Route::get('/login', [LoginController::class, 'show']);
 Route::post('/login', [LoginController::class, 'login']);
+Route::get('/logout', [LogoutController::class, 'logout']);
+
+/*
+------------------------------------------------------------------------------------------------------
+Ruta para determinar si el correo que se tiene es de coordinadores, docentes o alumnos y redirigir
+------------------------------------------------------------------------------------------------------
+*/
 
 Route::get('/home', [emailController::class, 'index']);
+
+/*
+------------------------------------------------------------------------------------------------------
+Rutas para el coordinador
+------------------------------------------------------------------------------------------------------
+*/
+
 Route::get('/coordinador', [HomeController::class, 'index']);
 Route::post('/home/studentRegistration', [HomeController::class, 'studentRegistration']);
 Route::post('/home/teacherRegistration', [HomeController::class, 'teacherRegistration']);
@@ -40,8 +60,18 @@ Route::get('/home/eliminarTeacher/{id}', [HomeController::class, 'eliminateTeach
 Route::get('/home/eliminarStudent/{id}', [HomeController::class, 'eliminateStudent']);
 Route::get('/home/eliminarSubject/{id}', [HomeController::class, 'eliminateSubject']);
 
+/*
+------------------------------------------------------------------------------------------------------
+Rutas para el docente
+------------------------------------------------------------------------------------------------------
+*/
+
 Route::get('/docente', [TeacherController::class, 'index']);
 
-Route::get('/alumno', [StudentController::class, 'index']);
+/*
+------------------------------------------------------------------------------------------------------
+//Rutas para el alumno
+------------------------------------------------------------------------------------------------------
+*/
 
-Route::get('/logout', [LogoutController::class, 'logout']);
+Route::get('/alumno', [StudentController::class, 'index']);

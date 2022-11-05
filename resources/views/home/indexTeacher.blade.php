@@ -151,7 +151,7 @@
                         </select>
                     </div>
                     <div id="resultadoP">
-                        <!--Se pone el horario de la materia con una función-->
+                        <!--Se pone el horario de la materia-->
                     </div>
                     <br><br><button class="btn btn-success">Enviar</button><br><br>
                 </form>

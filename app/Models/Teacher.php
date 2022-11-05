@@ -11,4 +11,10 @@ class Teacher extends Model
     public $timestamps = false;
 
     protected $fillable = ['name', 'gender', 'coordinator_id'];
+
+    //Relación Polimorfica
+    public function subjects()
+    {
+        return $this->morphToMany(Subject::class, 'subjectable');
+    }
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\TeacherRegistrationRequest;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -32,21 +33,25 @@ class HomeController extends Controller
 
     public function studentRegistration(StudentRegistrationRequest $request)
     {
-        $request->merge(['coordinator_id' => Auth::id()]);
+
+        $coordinator = User::find(Auth::id())->coordinator;
+        $request->merge(['coordinator_id' => $coordinator->id]);
         Student::create($request->all());
-        return redirect()->action([HomeController::class, 'index']);
+        return redirect(self::HOME);
     }
     public function teacherRegistration(TeacherRegistrationRequest $request)
     {
-        $request->merge(['coordinator_id' => Auth::id()]);
+        $coordinator = User::find(Auth::id())->coordinator;
+        $request->merge(['coordinator_id' => $coordinator->id]);
         Teacher::create($request->all());
-        return redirect()->action([HomeController::class, 'index']);
+        return redirect(self::HOME);
     }
     public function subjectRegistration(SubjectRegistrationRequest $request)
     {
-        $request->merge(['coordinator_id' => Auth::id()]);
+        $coordinator = User::find(Auth::id())->coordinator;
+        $request->merge(['coordinator_id' => $coordinator->id]);
         Subject::create($request->all());
-        return redirect()->action([HomeController::class, 'index']);
+        return redirect(self::HOME);
     }
     public function studentSearch(Request $request)
     {
@@ -84,11 +89,6 @@ class HomeController extends Controller
     {
         $subject = Subject::find($id);
         $subject->delete();
-        return redirect(self::HOME);
-    }
-
-    public function enrollStudent($id)
-    {
         return redirect(self::HOME);
     }
 }

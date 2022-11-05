@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('coordinators', function (Blueprint $table) {
+        Schema::create('subjectables', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('degree');
-            $table->string('gender');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->morphs('subjectable');
+            $table->foreignId('subject_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('coordinators');
+        Schema::dropIfExists('subjectables');
     }
 };

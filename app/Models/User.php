@@ -45,4 +45,10 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($value);
     }
+    //One To One relation
+    public function coordinator()
+
+    {
+        return $this->hasOne(Coordinator::class);
+    }
 }

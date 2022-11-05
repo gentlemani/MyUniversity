@@ -12,8 +12,10 @@ class Student extends Model
 
     protected $fillable = ['name', 'semester', 'degree', 'coordinator_id'];
 
+
+    //Relación Polimorfica
     public function subjects()
     {
-        return $this->morphToMany(Subject::class, 'subjectgable');
+        return $this->morphToMany(Subject::class, 'subjectable');
     }
 }

@@ -17,10 +17,10 @@ class TeacherController extends Controller
             return redirect('/login');
         }
         $subjects = Subject::all();
-        $searchStudent = $request->session()->get('searchStudent');
-        $searchTeacher = $request->session()->get('searchTeacher');
-        $searchSubject = $request->session()->get('searchSubject');
+        return view('home.indexTeacher', compact('subjects'));
+    }
 
-        return view('home.indexTeacher', compact('searchStudent', 'searchTeacher', 'searchSubject', 'subjects'));
+    public function subjectEnroll()
+    {
     }
 }
