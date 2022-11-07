@@ -27,20 +27,18 @@ class TeacherController extends Controller
     {
         Subject::find($request->subject_id);
         $teacher = User::find(Auth::id())->userable;
-        //probando start
-        $prueba2 = Subject::find(2);
-        $prueba01 = Teacher::find($teacher->id);
-        foreach ($prueba2->students as $info) {
-
-            if ($info->pivot->subject_id) {
-                print($info->pivot->subject_id);
-            }
-            echo '<br>';
-        }
-
-        $tags = Subject::with('students')->get();
-        //probando end
-        // $teacher->subjects()->syncWithoutDetaching($request->subject_id);
-        // return redirect(self::HOME);
+        $teacher->subjects()->syncWithoutDetaching($request->subject_id);
+        return redirect(self::HOME);
+    }
+    public function subjectShow()
+    {
+        $teacher = User::find(Auth::id())->userable;
+        return redirect(self::HOME)->with(compact('teacher'));
+    }
+    public function subjectDelete($id)
+    {
+        $teacher = User::find(Auth::id())->userable;
+        $teacher->subjects()->detach($id);
+        return redirect(self::HOME);
     }
 }

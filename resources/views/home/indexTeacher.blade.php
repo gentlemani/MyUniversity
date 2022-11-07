@@ -13,6 +13,7 @@
 </head>
 
 <body>
+    
     <div class="container d-flex align-items-stretch">
         <nav id="sidebar">
             <div class="p-4">
@@ -35,8 +36,6 @@
                         <br><br><br><a href="/logout"><span class="fa fa-cogs mr-3"></span> Cerrar sesión</a>
                     </li>
                 </ul>
-
-
                 <div class="footer">
                     <p style="font-size: small;">
                         MyUniversity es un sistema de uso académico creado por Robinson Ian Cabrera Hernandez, Perez Garcia Cristian Rolando, Hernandez Michel Jose Luis
@@ -126,25 +125,37 @@
                     <div id="resultadoP">
                         <!--Se pone el horario de la materia-->
                     </div>
-                    <br><br><button class="btn btn-success">Enviar</button><br><br>
+                    <br><br><button class="btn btn-success">Agregar materia</button><br><br>
                 </form>
 
                 <h2>Búsqueda de Materias</h2>
-                <form action="/home/subjectSearch" method="post">
+                <form action="/docente/subjectShow" method="post">
                     @csrf
                     <div class="input-group mb-3">
-                        <input class="input_bus" type="text" placeholder="Nombre de la materia" style="color: black;" name="name" required>
+                        <input class="input_bus" type="text" placeholder="Nombre de la materia" style="color: black;" name="name">
                         <button class="btn btn-outline-secondary" id="button-addon2">Buscar</button>
                     </div>
                 </form>
-
                 <br><br>
                 <table class="table table-dark">
                     <tr class="table-active">
-                        <th>ID</th>
                         <th>Nombre de la materia</th>
-                        <th>Eliminar</th>
+                        <th>Sección</th>
+                        <th>Horario</th>
+                        <th>Clave</th>
+                        <th>Dar de baja</th>
                     </tr>
+                    @if(session('teacher'))
+                    @foreach (session('teacher')->subjects as $subject)
+                    <tr class="table-active">
+                        <td>{{$subject->name}}</td>
+                        <td>{{$subject->section}}</td>
+                        <td>{{$subject->schedule}}</td>
+                        <td>{{$subject->clave}}</td>
+                        <td><a href="/docente/subjectDelete/{{$subject->id}}">Eliminar</a></td>
+                    </tr>
+                    @endforeach
+                    @endif
 
                 </table>
             </div>
@@ -220,6 +231,11 @@
     </script>
     <script src="/home01/js/selectForm.js">
     </script>
+    @if(session('teacher'))
+    <script> 
+    visible_mat()
+    </script>
+    @endif
 
 </body>
 
