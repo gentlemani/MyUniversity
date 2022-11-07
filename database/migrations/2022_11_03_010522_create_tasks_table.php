@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('task_name');
-            $table->date('task_date');
+            $table->string('name');
+            $table->text('description');
+            $table->date('date');
             $table->foreignId('teacher_id')->constrained();
         });
     }

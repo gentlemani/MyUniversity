@@ -24,6 +24,9 @@
                         <span class="fa fa-user mr-3" id="alum"></span><button class="btn-transparent" onclick="visible_alum()">Calificacion</button>
                     </li>
                     <li>
+                        <span class="fa fa-user mr-3"></span><button class="btn-transparent" onclick="visible_asistencia()">Asistencia</button>
+                    </li>
+                    <li>
                         <span class="fa fa-sticky-note mr-3"></span><button class="btn-transparent" onclick="visible_mat()">Materias</button>
                     </li>
                     <li>
@@ -56,8 +59,6 @@
             <div id="sec_alum" class="p-4 p-md-5 pt-5" style="display: none;">
                 <h1 class="mb-4">Gestión de Alumnos</h1>
                 <h2>Alta de alumnos</h2>
-                <form action="/home/studentRegistration" method="POST" name="prueba01">
-                    @csrf
                     @if ($errors->has('students'))
 
                     <script>
@@ -65,9 +66,30 @@
                     </script>
                     @endif
                     <div>
+                        <form method="POST" action="/docente/subjectRegistration">
+                            @csrf
+                            <div class="select">
+                                <br><label for="subjectStudentId">Materias:</label><br>
+                                <select name="subject_id" id="subjectStudentId" required>
+                                    <option value="" selected>Seleccione una Materia</option>
+                                    @foreach($subjects as $subject)
+                                    <option value="{{$subject->id}}">{{$subject->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @if ($errors->has('subjects') and $errors->has('subject_id'))
+                                <i>Seleccione una Materia</i><br>
+                                @endif
+                            <div id="scheduleSubjectStudent">
+                                <!--Se pone el horario de la materia-->
+                            </div>
+                            <br><br><button class="btn btn-success">Agregar materia</button><br><br>
+                        </form>
+                        <form action="">
+                            @csrf
                         <div class="select">
-                            <br><label id="firstname" for="Nombre del alumno">Alumnos:</label></br>
-                            <select name="Nombre del alumno" id="identified">
+                            <br><label id="name" for="Nombre del alumno">Alumnos:</label><br>
+                            <select name="name" id="name">
                                 <option value="Pepe">Pepe</option>
                             </select>
                         </div>
@@ -107,22 +129,19 @@
                 <h2>Alta de Materias</h2>
                 <form method="POST" action="/docente/subjectRegistration">
                     @csrf
-                    @if ($errors->has('subjects'))
-                    <script>
-                        visible_mat()
-                    </script>
-                    @endif
-
                     <div class="select">
-                        <br><label id="firstname" for="Nombre de la materia">Materias:</label></br>
-                        <select name="subject_id" id="subject_id">
+                        <br><label for="subjectTeacherId">Materias:</label><br>
+                        <select name="subject_id" id="subjectTeacherId" required>
                             <option value="" selected>Seleccione una Materia</option>
                             @foreach($subjects as $subject)
                             <option value="{{$subject->id}}">{{$subject->name}}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div id="resultadoP">
+                    @if ($errors->has('subjects') and $errors->has('subject_id'))
+                        <i>Seleccione una Materia</i><br>
+                        @endif
+                    <div id="scheduleSubjectTeacher">
                         <!--Se pone el horario de la materia-->
                     </div>
                     <br><br><button class="btn btn-success">Agregar materia</button><br><br>
@@ -145,8 +164,8 @@
                         <th>Clave</th>
                         <th>Dar de baja</th>
                     </tr>
-                    @if(session('teacher'))
-                    @foreach (session('teacher')->subjects as $subject)
+                    @if(session('subjects'))
+                    @foreach (session('subjects') as $subject)
                     <tr class="table-active">
                         <td>{{$subject->name}}</td>
                         <td>{{$subject->section}}</td>
@@ -162,35 +181,35 @@
             <div id="sec_trabajos" class="p-4 p-md pt-5" style="display: none;">
                 <h1 class="mb-4">Gestión de Trabajos</h1>
                 <h2>Alta de Trabajos</h2>
-                <form method="POST" action="/home/subjectRegistration">
+                <form method="POST" action="/docente/taskRegistration">
                     @csrf
-                    @if ($errors->has('subjects'))
-
-                    <script>
-                        visible_trabajos()
-                    </script>
-                    @endif
                     <div>
                         <br><label for="name" style="color: black; font-size: large;">Nombre del trabajo</label> <br>
-                        <input type="text" placeholder="Nombre del trabajo" class="input_bus" name="clave" @if ($errors->has('subjects')) value="{{old('name') ?? ''}}"
+                        <input type="text" placeholder="Nombre del trabajo" class="input_bus" name="name" @if ($errors->has('subjects')) value="{{old('name') ?? ''}}"
                         @endif required><br>
-                        @if ($errors->has('subjects') and $errors->has('name'))
+                        @if ($errors->has('tasks') and $errors->has('name'))
                         <i>Ingrese el nombre del trabajo</i><br>
                         @endif
                         <label for="Fecha del trabajo" style="color: black; font-size: large;">Fecha del Trabajo</label><br>
-                        <input type="text" placeholder="Fecha del trabajo" class="input_bus" name="name" @if ($errors->has('subjects')) value="{{old('date') ?? ''}}"
+                        <input type="date" placeholder="Fecha del trabajo" class="input_bus" name="date" @if ($errors->has('subjects')) value="{{old('date') ?? ''}}"
                         @endif required> <br>
-                        @if ($errors->has('subjects') and $errors->has('date'))
+                        @if ($errors->has('tasks') and $errors->has('date'))
                         <i>Ingrese la Fecha del trabajo</i><br>
+                        @endif
+                        <label for="description" style="color: black; font-size: large;">Descripción del trabajo</label> <br>
+                        <input type="text" placeholder="Descripción del trabajo" class="input_bus" name="description" @if ($errors->has('subjects')) value="{{old('description') ?? ''}}"
+                        @endif required><br>
+                        @if ($errors->has('tasks') and $errors->has('description'))
+                        <i>Ingrese el nombre del trabajo</i><br>
                         @endif
                     </div>
                     <br><br><button class="btn btn-success">Enviar</button><br><br>
                 </form>
                 <h2>Búsqueda de Trabajos</h2>
-                <form action="/home/subjectSearch" method="post">
+                <form action="/docente/taskShow" method="post">
                     @csrf
                     <div class="input-group mb-3">
-                        <input class="input_bus" type="text" placeholder="Nombre del trabajo" style="color: black;" name="name" required>
+                        <input class="input_bus" type="text" placeholder="Nombre del trabajo" style="color: black;" name="name">
                         <button class="btn btn-outline-secondary" id="button-addon2">Buscar</button>
                     </div>
                 </form>
@@ -198,11 +217,21 @@
                 <br><br>
                 <table class="table table-dark">
                     <tr class="table-active">
-                        <th>ID</th>
                         <th>Nombre del Trabajo</th>
+                        <th>Descripción del trabajo</th>
                         <th>Fecha del Trabajo</th>
                         <th>Eliminar Trabajo</th>
                     </tr>
+                    @if(session('tasks'))
+                    @foreach (session('tasks') as $subject)
+                    <tr class="table-active">
+                        <td>{{$subject->name}}</td>
+                        <td>{{$subject->description}}</td>
+                        <td>{{$subject->date}}</td>
+                        <td><a href="/docente/taskDelete/{{$subject->id}}">Eliminar</a></td>
+                    </tr>
+                    @endforeach
+                    @endif
 
                 </table>
             </div>
@@ -222,7 +251,55 @@
                 <span class="fa fa-at"></span>
                 <h4>my.university.pagina@gmail.com</h4>
             </div>
+            <div id="sec_asistencia" class="p-4 p-md pt-5" style="display: none;">
+                <h1 class="mb-4">Asistencia</h1>
+                <h2>Listas de alumnos</h2>
+                <form method="POST" action="/docente/attendaceRegistration">
+                    @csrf
+                    <div>
+                        <br><label for="subject_id">Seleccione una materia para mostrar los alumnos:</label><br>
+                        <select name="subject_id" id="subject_id" required>
+                            <option value="" selected>Seleccione una Materia</option>
+                            @foreach($subjects as $subject)
+                            <option value="{{$subject->id}}">{{$subject->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <br><br><button class="btn btn-success">Enviar</button><br><br>
+                </form>
+                <h2>Búsqueda de Alumnos</h2>
+                <form action="/docente/taskShow" method="post">
+                    @csrf
+                    <div class="input-group mb-3">
+                        <input class="input_bus" type="text" placeholder="Nombre del trabajo" style="color: black;" name="name">
+                        <button class="btn btn-outline-secondary" id="button-addon2">Buscar</button>
+                    </div>
+                </form>
+    
+                <br><br>
+                <table class="table table-dark">
+                    <tr class="table-active">
+                        <th>Nombre del Trabajo</th>
+                        <th>Descripción del trabajo</th>
+                        <th>Fecha del Trabajo</th>
+                        <th>Eliminar Trabajo</th>
+                    </tr>
+                    @if(session('tasks'))
+                    @foreach (session('tasks') as $subject)
+                    <tr class="table-active">
+                        <td>{{$subject->name}}</td>
+                        <td>{{$subject->description}}</td>
+                        <td>{{$subject->date}}</td>
+                        <td><a href="/docente/taskDelete/{{$subject->id}}">Eliminar</a></td>
+                    </tr>
+                    @endforeach
+                    @endif
+    
+                </table>
+            </div>
         </div>
+        
+    </div>
 
     </div>
     <script src="/home01/js/teacherFunctions.js"></script>
@@ -231,7 +308,17 @@
     </script>
     <script src="/home01/js/selectForm.js">
     </script>
-    @if(session('teacher'))
+    @if(session('subjects') ||  $errors->has('subjects'))
+    <script> 
+    visible_mat()
+    </script>
+    @endif
+    @if(session('tasks') ||  $errors->has('tasks'))
+    <script> 
+        visible_trabajos()
+    </script>
+    @endif
+    @if(session('attendances') || $errors->has('attendances'))
     <script> 
     visible_mat()
     </script>

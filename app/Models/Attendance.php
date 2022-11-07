@@ -14,4 +14,9 @@ class Attendance extends Model
         'attendance_date',
         'teacher_id',
     ];
+    // Uno a muchos
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+    }
 }

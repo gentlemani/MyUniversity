@@ -10,5 +10,10 @@ class Task extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = ['task_name', 'task_date', 'teacher_id'];
+    protected $fillable = ['name', 'date', 'teacher_id', 'description'];
+    // Uno a muchos
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+    }
 }

@@ -1,17 +1,32 @@
-var select = document.getElementById('subject_name');
+var selectTeacher = document.getElementById('subjectTeacherId');
 var textSelected;
-const result = document.querySelector('#resultadoP');
-select.addEventListener('change',
+const resultTeacher = document.querySelector('#scheduleSubjectTeacher');
+selectTeacher.addEventListener('change',
   function(){
-    var selectedOption = this.options[select.selectedIndex];
-    console.log(selectedOption.value + ': ' + selectedOption.text);
+    var selectedOption = this.options[selectTeacher.selectedIndex];
     textSelected=selectedOption.value;
     for (var key in subjects) {
      if(subjects[key]['id']==textSelected){
-       result.textContent = 'Horario: ' + subjects[key]['schedule'];
+      resultTeacher.textContent = 'Horario: ' + subjects[key]['schedule'];
        return;
      }else{
-      result.textContent = '';
+      resultTeacher.textContent = '';
+     }
+   }
+  });
+
+var selectStudent = document.getElementById('subjectStudentId');
+const resultStudent = document.querySelector('#scheduleSubjectStudent');
+selectStudent.addEventListener('change',
+  function(){
+    var selectedOption = this.options[selectStudent.selectedIndex];
+    textSelected=selectedOption.value;
+    for (var key in subjects) {
+     if(subjects[key]['id']==textSelected){
+      resultStudent.textContent = 'Horario: ' + subjects[key]['schedule'];
+       return;
+     }else{
+      resultStudent.textContent = '';
      }
    }
   });

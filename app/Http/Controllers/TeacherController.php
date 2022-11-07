@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TeacherSubjectAddRequest;
+use App\Http\Requests\TeacherTaskAddRequest;
 use App\Models\Subject;
+use App\Models\Task;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,23 +25,56 @@ class TeacherController extends Controller
         $subjects = Subject::all();
         return view('home.indexTeacher', compact('subjects'));
     }
-
-    public function subjectEnroll(Request $request)
+    /*
+    -------------------------------------------------------------------------------------------------
+    Agregar
+    -------------------------------------------------------------------------------------------------
+    */
+    public function subjectAdd(TeacherSubjectAddRequest $request)
     {
         Subject::find($request->subject_id);
         $teacher = User::find(Auth::id())->userable;
         $teacher->subjects()->syncWithoutDetaching($request->subject_id);
         return redirect(self::HOME);
     }
+    public function taskAdd(TeacherTaskAddRequest $request)
+    {
+        $teacherId = User::find(Auth::id())->userable->id;
+        $request->merge(['teacher_id' => $teacherId]);
+        Task::create($request->all());
+        return redirect(self::HOME);
+    }
+    /*
+    -------------------------------------------------------------------------------------------------
+    Mostrar
+    -------------------------------------------------------------------------------------------------
+    */
     public function subjectShow()
     {
-        $teacher = User::find(Auth::id())->userable;
-        return redirect(self::HOME)->with(compact('teacher'));
+        $subjects = User::find(Auth::id())->userable->subjects;
+        return redirect(self::HOME)->with(compact('subjects'));
     }
+
+    public function taskShow()
+    {
+        $tasks = User::find(Auth::id())->userable->tasks;
+        return redirect(self::HOME)->with(compact('tasks'));
+    }
+    /*
+    -------------------------------------------------------------------------------------------------
+    Eliminar
+    -------------------------------------------------------------------------------------------------
+    */
     public function subjectDelete($id)
     {
         $teacher = User::find(Auth::id())->userable;
         $teacher->subjects()->detach($id);
+        return redirect(self::HOME);
+    }
+    public function taskDelete($id)
+    {
+        $task = Task::find($id);
+        $task->delete();
         return redirect(self::HOME);
     }
 }
