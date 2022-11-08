@@ -10,13 +10,23 @@ class Attendance extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
-        'status',
-        'attendance_date',
+        'date',
         'teacher_id',
+        'subject_id',
     ];
     // Uno a muchos
     public function teacher()
     {
         return $this->belongsTo(Teacher::class);
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
+    //muchos a muchos
+    public function students()
+    {
+        return $this->belongsToMany(Student::class)->withPivot('status');
     }
 }

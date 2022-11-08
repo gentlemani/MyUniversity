@@ -13,7 +13,7 @@ class Student extends Model
     protected $fillable = ['name', 'semester', 'degree', 'coordinator_id'];
 
 
-    //Relación Polimorfica
+    //Relación Polimorfica muchos a muchos
     public function subjects()
     {
         return $this->morphToMany(Subject::class, 'subjectable');
@@ -23,5 +23,15 @@ class Student extends Model
     public function user()
     {
         return $this->morphOne(User::class, 'userable');
+    }
+    //Relacion muchos a muchos
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class)->withPivot('delivered');
+    }
+
+    public function attendances()
+    {
+        return $this->belongsToMany(Attendance::class)->withPivot('status');
     }
 }

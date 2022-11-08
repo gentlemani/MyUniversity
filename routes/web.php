@@ -69,9 +69,11 @@ Rutas para el docente
 Route::get('/docente', [TeacherController::class, 'index']);
 Route::post('/docente/subjectRegistration', [TeacherController::class, 'subjectAdd']);
 Route::post('/docente/taskRegistration', [TeacherController::class, 'taskAdd']);
-Route::post('/docente/subjectRegistration', [TeacherController::class, 'subjectAdd']);
+Route::post('/docente/attendanceRegistration', [TeacherController::class, 'attendanceAdd']);
 Route::post('/docente/subjectShow', [TeacherController::class, 'subjectShow']);
 Route::post('/docente/taskShow', [TeacherController::class, 'taskShow']);
+Route::post('/docente/studentShow', [TeacherController::class, 'studentShow']);
+Route::post('/docente/attendanceShow', [TeacherController::class, 'attendanceShow']);
 Route::get('/docente/subjectDelete/{id}', [TeacherController::class, 'subjectDelete']);
 Route::get('/docente/taskDelete/{id}', [TeacherController::class, 'taskDelete']);
 

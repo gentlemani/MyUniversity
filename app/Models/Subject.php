@@ -22,4 +22,13 @@ class Subject extends Model
     {
         return $this->morphedByMany(Student::class, 'subjectable');
     }
+    //relacion uno a muchos
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
 }

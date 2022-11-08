@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TeacherTaskAddRequest extends FormRequest
+class TeacherAttendanceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,23 +24,16 @@ class TeacherTaskAddRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
             'date' => 'required',
-            'description' => 'required|string',
-            'subject_id' => 'required',
+            'status' => 'required',
         ];
     }
-    /**
-     * Configure the validator instance.
-     *
-     * @param  \Illuminate\Validation\Validator  $validator
-     * @return void
-     */
+
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
             if ($validator->errors()->isNotEmpty()) {
-                $validator->errors()->add('tasks', 'Errors!');
+                $validator->errors()->add('attendances', 'Errors!');
             }
         });
     }

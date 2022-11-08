@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('section');
             $table->string('schedule');
             $table->string('clave');
-            // $table->unsignedBigInteger('id_coordinator3');
-            // $table->foreign('id_coordinator3')->references('id')->on('coordinators');
             $table->foreignId('coordinator_id')->constrained();
         });
     }

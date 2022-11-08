@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->date('date');
             $table->foreignId('teacher_id')->constrained();
+            $table->foreignId('subject_id')->constrained()->onDelete('cascade');
         });
     }
 
