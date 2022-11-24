@@ -349,10 +349,6 @@
                 <h4>Perez Garcia Cristian Rolando</h4><br>
                 <span class="fa fa-phone mr-2"></span>
                 <h4>3313546891</h4><br>
-                <span class="fa fa-teacher mr-2"></span>
-                <h4>Hernandez Michel Jose Luis</h4><br>
-                <span class="fa fa-phone mr-2"></span>
-                <h4>3313206548</h4><br>
                 <span class="fa fa-at"></span>
                 <h4>my.university.pagina@gmail.com</h4>
             </div>
