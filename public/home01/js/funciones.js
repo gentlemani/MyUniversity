@@ -35,3 +35,33 @@ function visible_contact(){
     document.getElementById("contenido").style.display="none";
 
 }
+//Funciones de alumnos
+function visible_becas_alumnos(){
+    document.getElementById("sec_beca").style.display="";
+    document.getElementById("sec_mat").style.display="none";
+    document.getElementById("sec_trabajos").style.display="none";
+    document.getElementById("contenido").style.display="none";
+    document.getElementById("sec_cont").style.display="none";
+}
+
+function visible_contact_alumnos(){
+    document.getElementById("sec_cont").style.display="";
+    document.getElementById("sec_beca").style.display="none";
+    document.getElementById("sec_mat").style.display="none";
+    document.getElementById("contenido").style.display="none";
+    document.getElementById("sec_trabajos").style.display="none";
+}
+function visible_mat_alumnos(){
+    document.getElementById("sec_mat").style.display="";
+    document.getElementById("sec_beca").style.display="none";
+    document.getElementById("sec_trabajos").style.display="none";
+    document.getElementById("contenido").style.display="none";
+    document.getElementById("sec_cont").style.display="none";
+}
+function visible_trabajos_alumnos(){
+    document.getElementById("sec_trabajos").style.display="";
+    document.getElementById("sec_beca").style.display="none";
+    document.getElementById("sec_mat").style.display="none";
+    document.getElementById("contenido").style.display="none";
+    document.getElementById("sec_cont").style.display="none";
+}

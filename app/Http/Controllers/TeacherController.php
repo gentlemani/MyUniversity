@@ -36,7 +36,6 @@ class TeacherController extends Controller
     */
     public function subjectAdd(TeacherSubjectAddRequest $request)
     {
-        Subject::find($request->subject_id);
         $teacher = User::find(Auth::id())->userable;
         $teacher->subjects()->syncWithoutDetaching($request->subject_id);
         return redirect(self::HOME);

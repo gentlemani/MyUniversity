@@ -23,19 +23,19 @@
                     <br><br><br>
                     <li>
                         <span class="fa fa-user mr-3"></span><button class="btn-transparent"
-                            onclick="visible_asistencia()">Asistencia</button>
+                            onclick="visible_becas_alumnos()">Becas</button>
                     </li>
                     <li>
                         <span class="fa fa-sticky-note mr-3"></span><button class="btn-transparent"
-                            onclick="visible_mat()">Materias</button>
+                            onclick="visible_mat_alumnos()">Materias</button>
                     </li>
                     <li>
                         <span class="fa fa-sticky-note mr-3"></span><button class="btn-transparent"
-                            onclick="visible_trabajos()">Trabajos</button>
+                            onclick="visible_trabajos_alumnos()">Trabajos</button>
                     </li>
                     <li>
                         <span class="fa fa-paper-plane mr-3"></span><button class="btn-transparent"
-                            onclick="visible_contact()">Contacto</button>
+                            onclick="visible_contact_alumnos()">Contacto</button>
                     </li><br><br><br><br><br><br>
                     <li>
                         <br><br><br><a href="/logout"><span class="fa fa-cogs mr-3"></span> Cerrar sesión</a>
@@ -57,74 +57,9 @@
                 <p style="color: black;">Inserte frase mamadora acá
                 </p>
             </div>
-            <div id="sec_alum" class="p-4 p-md-5 pt-5" style="display: none;">
-                <h1 class="mb-4">Gestión de Alumnos</h1>
-                <h2>Alta de alumnos</h2>
-                @if ($errors->has('students'))
-                    <script>
-                        visible_alum()
-                    </script>
-                @endif
-                <div>
-                    <form method="POST" action="/docente/subjectRegistration">
-                        @csrf
-                        <div class="select">
-                            <br><label for="subjectStudentId">Materias:</label><br>
-                            <select name="subject_id" id="subjectStudentId" required>
-                                <option value="" selected>Seleccione una Materia</option>
-                                @foreach ($subjects as $subject)
-                                    <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @if ($errors->has('subjects') and $errors->has('subject_id'))
-                            <i>Seleccione una Materia</i><br>
-                        @endif
-                        <div id="scheduleSubjectStudent">
-                            <!--Se pone el horario de la materia-->
-                        </div>
-                        <br><br><button class="btn btn-success">Agregar materia</button><br><br>
-                    </form>
-                    <form action="">
-                        @csrf
-                        <div class="select">
-                            <br><label id="name" for="Nombre del alumno">Alumnos:</label><br>
-                            <select name="name" id="name">
-                                <option value="Pepe">Pepe</option>
-                            </select>
-                        </div>
-                        <br><label for="Calificacion" style="color: black; font-size: large;">Calificacion de
-                            alumno</label> <br>
-                        <input type="text" placeholder="Calificacion Alumno" class="input_bus" name="score"
-                            @if ($errors->has('students')) value="{{ old('score') ?? '' }}" @endif required><br>
-                        @if ($errors->has('students') and $errors->has('score'))
-                            <i>Ingrese la Calificacion</i><br>
-                        @endif
-                </div>
-                <br><br><button class="btn btn-success">Enviar</button><br><br>
-                </form>
-                <h2>Búsqueda de alumno</h2>
-                <form action="/home/studentSearch" method="post">
-                    @csrf
-                    <div class="input-group mb-3">
-                        <input class="input_bus" type="text" placeholder="Nombre del alumno" style="color: black;"
-                            name="name">
-                        <button class="btn btn-outline-secondary" id="button-addon2">Buscar</button>
-                    </div>
-                </form>
-                <br><br>
-                <table class="table table-dark">
-                    <tr class="table-active">
-                        <th>Código del Alumno</th>
-                        <th>Nombre del Alumno</th>
-                        <th>Calificacion del Alumno</th>
-                        <th>Dar de baja</th>
-                    </tr>
-                </table>
-            </div>
-            <div id="sec_asistencia" class="p-4 p-md pt-5" style="display: none;">
-                <h1 class="mb-4">Asistencia</h1>
-                <h2>Listas de alumnos</h2>
+            <div id="sec_beca" class="p-4 p-md pt-5" style="display: none;">
+                <h1 class="mb-4">Becas</h1>
+                <h2>Listas de Becas</h2>
                 <form method="POST" action="/docente/studentShow">
                     @csrf
                     <div>
@@ -215,15 +150,15 @@
             <div id="sec_mat" class="p-4 p-md pt-5" style="display: none;">
                 <h1 class="mb-4">Gestión de Materias</h1>
                 <h2>Alta de Materias</h2>
-                <form method="POST" action="/docente/subjectRegistration">
+                <form method="POST" action="/alumno/subjectRegistration">
                     @csrf
                     <div class="select">
                         <br><label for="subjectTeacherId">Materias:</label><br>
                         <select name="subject_id" id="subjectTeacherId" required>
                             <option value="" selected>Seleccione una Materia</option>
-                            {{-- @foreach ($subjects as $subject)
+                            @foreach ($subjects as $subject)
                                 <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                            @endforeach --}}
+                            @endforeach
                         </select>
                     </div>
                     @if ($errors->has('subjects') and $errors->has('subject_id'))
@@ -235,7 +170,7 @@
                     <br><br><button class="btn btn-success">Agregar materia</button><br><br>
                 </form>
                 <h2>Búsqueda de Materias</h2>
-                <form action="/docente/subjectShow" method="post">
+                <form action="/alumno/subjectShow" method="post">
                     @csrf
                     <div class="input-group mb-3">
                         <input class="input_bus" type="text" placeholder="Nombre de la materia"
@@ -250,6 +185,7 @@
                         <th>Sección</th>
                         <th>Horario</th>
                         <th>Clave</th>
+                        <th>Profesor</th>
                         <th>Dar de baja</th>
                     </tr>
                     @if (session('subjects'))
@@ -259,7 +195,14 @@
                                 <td>{{ $subject->section }}</td>
                                 <td>{{ $subject->schedule }}</td>
                                 <td>{{ $subject->clave }}</td>
-                                <td><a href="/docente/subjectDelete/{{ $subject->id }}">Eliminar</a></td>
+                                <td>
+                                    {{-- {{ $subjectsEnrolled }} --}}
+
+                                    @foreach ($subject->teachers as $teacher)
+                                        {{ $teacher->name }}
+                                    @endforeach
+                                </td>
+                                <td><a href="/alumno/subjectDelete/{{ $subject->id }}">Eliminar</a></td>
                             </tr>
                         @endforeach
                     @endif
@@ -267,47 +210,48 @@
             </div>
             <div id="sec_trabajos" class="p-4 p-md pt-5" style="display: none;">
                 <h1 class="mb-4">Gestión de Trabajos</h1>
-                <h2>Alta de Trabajos</h2>
-                <form method="POST" action="/docente/taskRegistration">
+                <h2>Trabajos disponibles</h2>
+                <form method="POST" action="/alumno/taskShow">
                     @csrf
                     <div>
                         <div class="select">
                             <br><label for="subjectStudentId">Materias:</label><br>
                             <select name="subject_id" id="subjectStudentId" required>
-                                <option value="" selected>Seleccione materia para asignar trabajo</option>
-                                {{-- @foreach ($teacher->subjects as $subject)
-                                <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                                @endforeach --}}
+                                <option value="" selected>Seleccione materia para buscar trabajos</option>
+                                @foreach ($subjectEnrolled as $subject)
+                                    <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                @endforeach
                             </select>
                         </div>
-                        <br><label for="name" style="color: black; font-size: large;">Nombre del trabajo</label>
-                        <br>
-                        <input type="text" placeholder="Nombre del trabajo" class="input_bus" name="name"
-                            @if ($errors->has('subjects')) value="{{ old('name') ?? '' }}" @endif required><br>
-                        @if ($errors->has('tasks') and $errors->has('name'))
-                            <i>Ingrese el nombre del trabajo</i><br>
-                        @endif
-                        <label for="Fecha del trabajo" style="color: black; font-size: large;">Fecha del
-                            Trabajo</label><br>
-                        <input type="date" placeholder="Fecha del trabajo" class="input_bus" name="date"
-                            @if ($errors->has('subjects')) value="{{ old('date') ?? '' }}" @endif required> <br>
-                        @if ($errors->has('tasks') and $errors->has('date'))
-                            <i>Ingrese la Fecha del trabajo</i><br>
-                        @endif
-                        <label for="description" style="color: black; font-size: large;">Descripción del
-                            trabajo</label> <br>
-                        <input type="text" placeholder="Descripción del trabajo" class="input_bus"
-                            name="description"
-                            @if ($errors->has('subjects')) value="{{ old('description') ?? '' }}" @endif
-                            required><br>
-                        @if ($errors->has('tasks') and $errors->has('description'))
-                            <i>Ingrese el nombre del trabajo</i><br>
-                        @endif
                     </div>
-                    <br><br><button class="btn btn-success">Enviar</button><br><br>
+                    <br><br><button class="btn btn-success">Buscar</button><br><br>
                 </form>
+                <div>
+                    <table class="table table-dark">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Fecha</th>
+                            <th>Descripción</th>
+                        </tr>
+                        @if (session('tasks'))
+                            @foreach (session('tasks') as $task)
+                                <tr>
+                                    <td>
+                                        {{ $task->name }}
+                                    </td>
+                                    <td>
+                                        {{ $task->date }}
+                                    </td>
+                                    <td>
+                                        {{ $task->description }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </table>
+                </div>
                 <h2>Búsqueda de Trabajos</h2>
-                <form action="/docente/taskShow" method="post">
+                <form action="/alumno/taskShow" method="post">
                     @csrf
                     <div class="input-group mb-3">
                         <input class="input_bus" type="text" placeholder="Nombre del trabajo"
@@ -357,24 +301,19 @@
     </div>
 
     </div>
-    <script src="/home01/js/teacherFunctions.js"></script>
+    <script src="/home01/js/funciones.js"></script>
     <script>
         var subjects = <?php echo json_encode($subjects); ?>;
     </script>
     <script src="/home01/js/selectForm.js"></script>
     @if (session('subjects') || $errors->has('subjects'))
         <script>
-            visible_mat()
+            visible_mat_alumnos()
         </script>
     @endif
     @if (session('tasks') || $errors->has('tasks'))
         <script>
-            visible_trabajos()
-        </script>
-    @endif
-    @if (session('students') || $errors->has('attendances') || session('registredAttendances'))
-        <script>
-            visible_asistencia()
+            visible_trabajos_alumnos()
         </script>
     @endif
 

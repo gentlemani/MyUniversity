@@ -76,6 +76,7 @@ class HomeController extends Controller
     public function eliminateTeacher($id)
     {
         $teacher = Teacher::find($id);
+        $teacher->user()->delete();
         $teacher->delete();
         return redirect(self::HOME);
     }
@@ -83,6 +84,7 @@ class HomeController extends Controller
     public function eliminateStudent($id)
     {
         $student = Student::find($id);
+        $student->user()->delete();
         $student->delete();
         return redirect(self::HOME);
     }

@@ -86,3 +86,6 @@ Route::get('/docente/taskDelete/{id}', [TeacherController::class, 'taskDelete'])
 
 Route::get('/alumno', [StudentController::class, 'index']);
 Route::post('/alumno/subjectRegistration', [StudentController::class, 'subjectEnroll']);
+Route::post('/alumno/subjectShow', [StudentController::class, 'subjectShow']);
+Route::post('/alumno/taskShow', [StudentController::class, 'taskShow']);
+Route::get('/alumno/subjectDelete/{id}', [StudentController::class, 'subjectDelete']);

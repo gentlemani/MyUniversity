@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subject;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,14 +20,45 @@ class StudentController extends Controller
             return redirect('/home');
         }
         $subjects = Subject::all();
-
-        return view('home.indexStudent', compact('subjects'));
+        $subjectEnrolled = User::find(Auth::id())->userable->subjects;
+        return view('home.indexStudent', compact('subjects', 'subjectEnrolled'));
     }
-
+    /*
+    -------------------------------------------------------------------------------------------------
+    Agregar
+    -------------------------------------------------------------------------------------------------
+    */
     public function subjectEnroll(Request $request)
     {
         $student = User::find(Auth::id())->userable;
         $student->subjects()->syncWithoutDetaching($request->subject_id);
+        return redirect(self::HOME);
+    }
+    /*
+    -------------------------------------------------------------------------------------------------
+    Mostrar
+    -------------------------------------------------------------------------------------------------
+    */
+    public function subjectShow()
+    {
+        $subjects = User::find(Auth::id())->userable->subjects;
+        return redirect(self::HOME)->with(compact('subjects'));
+    }
+
+    public function taskShow(Request $request)
+    {
+        $tasks = Subject::find($request->subject_id)->tasks;
+        return redirect(self::HOME)->with(compact('tasks'));
+    }
+    /*
+    -------------------------------------------------------------------------------------------------
+    Eliminar
+    -------------------------------------------------------------------------------------------------
+    */
+    public function subjectDelete($id)
+    {
+        $teacher = User::find(Auth::id())->userable;
+        $teacher->subjects()->detach($id);
         return redirect(self::HOME);
     }
 }
