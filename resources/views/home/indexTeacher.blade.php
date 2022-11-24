@@ -21,10 +21,6 @@
                         style="width: 80px; height: 80px;"> <span>MyUniversity</span></a>
                 <ul class="list-unstyled components mb-5">
                     <br><br><br>
-                    <li class="active">
-                        <span class="fa fa-user mr-3" id="alum"></span><button class="btn-transparent"
-                            onclick="visible_alum()">Calificacion</button>
-                    </li>
                     <li>
                         <span class="fa fa-user mr-3"></span><button class="btn-transparent"
                             onclick="visible_asistencia()">Asistencia</button>
