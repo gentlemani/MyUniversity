@@ -60,7 +60,7 @@
             <div id="sec_beca" class="p-4 p-md pt-5" style="display: none;">
                 <h1 class="mb-4">Becas</h1>
                 <h2>Listas de Becas</h2>
-                <form method="POST" action="/docente/studentShow">
+                <form method="POST" action="/alumno/studentShow">
                     @csrf
                     <div>
                         <br><label for="subject_id">Seleccione una materia para mostrar los alumnos:</label><br>
@@ -74,7 +74,7 @@
                     <br><br><button class="btn btn-success">Mostrar alumnos</button><br><br>
                 </form>
                 <h2>Toma de lista</h2>
-                <form action="/docente/attendanceRegistration" method="POST">
+                <form action="/alumno/attendanceRegistration" method="POST">
                     @csrf
                     <label for="">Ingrese la fecha para la asistencia</label>
                     <div class="input-group mb-3">
@@ -109,7 +109,7 @@
                 @endif
                 <br>
                 <h2>Buscar asistencia por día</h2>
-                <form action="/docente/attendanceShow" method="post">
+                <form action="/alumno/attendanceShow" method="post">
                     @csrf
                     <div>
                         <br><label for="subject_id">Seleccione una materia para mostrar la asistencia:</label><br>
@@ -232,6 +232,7 @@
                             <th>Nombre</th>
                             <th>Fecha</th>
                             <th>Descripción</th>
+                            <th>Trabajo</th>
                         </tr>
                         @if (session('tasks'))
                             @foreach (session('tasks') as $task)
@@ -244,6 +245,20 @@
                                     </td>
                                     <td>
                                         {{ $task->description }}
+                                    </td>
+                                    <td>
+                                        <form action="/alumno/fileAdd" method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="task_id" value="{{ $task->id }}"
+                                                id="">
+                                            <input type="file" name="archivo" id="">
+                                            <br>
+                                            @if ($errors->has('file'))
+                                                <i>Agregue un archivo primero</i><br>
+                                            @endif
+                                            <br>
+                                            <button>Enviar</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -267,6 +282,8 @@
                         <th>Descripción del trabajo</th>
                         <th>Fecha del Trabajo</th>
                         <th>Materia</th>
+                        <th>Estatus</th>
+                        <th>Trabajo</th>
                         <th>Eliminar Trabajo</th>
                     </tr>
                     @if (session('tasks'))
@@ -277,7 +294,42 @@
                                 <td>{{ $task->date }}</td>
                                 <td>{{ @array_search($task->subject_id, $subjects->pluck('id')->toArray()) !== true ? $subjects[0]->name : '' }}
                                 </td>
-                                <td><a href="/docente/taskDelete/{{ $task->id }}">Eliminar</a></td>
+                                <td>
+                                    {{ @in_array(null, $task->students->pluck('pivot.fileUploaded')->toArray()) !== true ? 'Trabajo entregado' : 'Pendiente de entrega' }}
+                                </td>
+                                <td>
+                                    <div>
+                                        @foreach ($task->students->pluck('pivot') as $item)
+                                            @if (!in_array(null, $task->students->pluck('pivot.fileUploaded')->toArray()))
+                                                <a href="/{{ $item->fileUploaded }}">Descargar</a>
+                                            @else
+                                                <form action="/alumno/fileAdd" method="POST"
+                                                    enctype="multipart/form-data">
+                                                    @csrf
+                                                    <input type="hidden" name="task_id" value="{{ $task->id }}"
+                                                        id="">
+                                                    <input type="hidden" name="subject_id"
+                                                        @if (session('subject_id')) value="{{ session('subject_id') }}"@else value="nada" @endif
+                                                        id="">
+                                                    {{-- <div><input type="file" name="file" id="file"
+                                                            class="inputfile" />
+                                                        <label for="file" class="demo">Subir archivo</label>
+                                                    </div> --}}
+                                                    <div class="file-select" id="src-file1">
+                                                        <input type="file" name="src-file1" aria-label="Archivo">
+                                                    </div>
+                                                    <br>
+                                                    @if ($errors->has('file'))
+                                                        <i>Agregue un archivo primero</i><br>
+                                                    @endif
+                                                    <br>
+                                                    <button class="btn btn-info text-light">Enviar</button>
+                                                </form>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </td>
+                                <td><a href="/alumno/fileDelete/{{ $task->id }}">Eliminar</a></td>
                             </tr>
                         @endforeach
                     @endif
@@ -301,7 +353,9 @@
     </div>
 
     </div>
-    <script src="/home01/js/funciones.js"></script>
+    <script src="/home01/js/funciones.js">
+        actualizarInputFile()
+    </script>
     <script>
         var subjects = <?php echo json_encode($subjects); ?>;
     </script>

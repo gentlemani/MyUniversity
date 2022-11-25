@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('student_task', function (Blueprint $table) {
-            $table->foreignId('task_id')->constrained()->onDelete('cascade');
-            $table->foreignId('student_id')->constrained();
-            $table->string('fileUploaded')->nullable()->default(null);
+        Schema::create('archivos', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('task_id');
+            $table->string('ubicacion');
+            $table->string('nombre_original');
+            $table->string('mime');
+            $table->timestamps();
         });
     }
 
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_task');
+        Schema::dropIfExists('archivos');
     }
 };

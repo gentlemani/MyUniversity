@@ -103,3 +103,40 @@ body{
     border-radius: 5px;
     width: 500px;
 }
+/* Nuevo */
+.file-select {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .file-select::before {
+    background-color: #5678EF;
+    color: white;
+    display:block;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    content: 'Seleccionar'; /* testo por defecto */
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+  
+  .file-select input[type="file"] {
+    opacity: 0;
+    width: 200px;
+    height: 30px;
+    display: inline-block;
+  }
+:root {
+    --fn: 'Seleccionar Archivo';
+    }
+    
+.file-select::before {
+    white-space: hidden;
+    overflow-y: hidden;
+    text-align: center;
+    content: var(--fn);
+    }

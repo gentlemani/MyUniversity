@@ -5,6 +5,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\PrivateFileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
@@ -86,6 +87,18 @@ Route::get('/docente/taskDelete/{id}', [TeacherController::class, 'taskDelete'])
 
 Route::get('/alumno', [StudentController::class, 'index']);
 Route::post('/alumno/subjectRegistration', [StudentController::class, 'subjectEnroll']);
+Route::post('/alumno/fileAdd', [StudentController::class, 'fileStore']);
+Route::get('/alumno/fileDelete/{id}', [StudentController::class, 'fileDelete']);
 Route::post('/alumno/subjectShow', [StudentController::class, 'subjectShow']);
 Route::post('/alumno/taskShow', [StudentController::class, 'taskShow']);
 Route::get('/alumno/subjectDelete/{id}', [StudentController::class, 'subjectDelete']);
+
+/*
+------------------------------------------------------------------------------------------------------
+//Rutas para archivos
+------------------------------------------------------------------------------------------------------
+*/
+route::get('/tareas/{file}', [PrivateFileController::class, 'StudentFiles']);
+Route::get('/archivo', function () {
+    return view('home.archivo');
+});

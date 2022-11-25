@@ -46,8 +46,8 @@ class TeacherController extends Controller
         $request->merge(['teacher_id' => $teacherId]);
         $task = Task::create($request->all());
         $subject = Subject::find($request->subject_id);
-        foreach ($subject->students as $key => $value) {
-            $task->students()->syncWithoutDetaching([$value['id']]);
+        foreach ($subject->students as $key => $student) {
+            $task->students()->syncWithoutDetaching([$student['id']]);
         }
         return redirect(self::HOME);
     }

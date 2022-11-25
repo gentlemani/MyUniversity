@@ -20,9 +20,14 @@ class Task extends Model
     {
         return $this->belongsTo(Subject::class);
     }
+    //Muchos a uno
+    public function archivos()
+    {
+        return $this->hasMany(Archivo::class);
+    }
     //Relación muchos a muchos
     public function students()
     {
-        return $this->belongsToMany(Student::class)->withPivot('delivered');
+        return $this->belongsToMany(Student::class)->withPivot('fileUploaded');
     }
 }

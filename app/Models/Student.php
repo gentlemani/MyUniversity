@@ -27,7 +27,7 @@ class Student extends Model
     //Relacion muchos a muchos
     public function tasks()
     {
-        return $this->belongsToMany(Task::class)->withPivot('delivered');
+        return $this->belongsToMany(Task::class)->withPivot('fileUploaded');
     }
 
     public function attendances()

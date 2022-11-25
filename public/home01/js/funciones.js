@@ -65,3 +65,10 @@ function visible_trabajos_alumnos(){
     document.getElementById("contenido").style.display="none";
     document.getElementById("sec_cont").style.display="none";
 }
+
+function actualizarInputFile() {
+    let filename = "'" + this.value.replace(/^.*[\\\/]/, '') + "'";
+    this.parentElement.style.setProperty('--fn', filename);
+    }
+    
+    document.querySelectorAll(".file-select input").forEach((ele)=>ele.addEventListener('change', actualizarInputFile));

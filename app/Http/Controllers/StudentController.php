@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StudentFileRequest;
+use App\Models\Archivo;
 use App\Models\Subject;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class StudentController extends Controller
 {
@@ -34,6 +37,32 @@ class StudentController extends Controller
         $student->subjects()->syncWithoutDetaching($request->subject_id);
         return redirect(self::HOME);
     }
+    public function fileStore(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'file' => 'required',
+        ]);
+        if ($validator->fails()) {
+
+            $tasks = Subject::find($request->subject_id)->tasks->load('students');
+            return redirect(self::HOME)->with(compact('tasks'))->withErrors($validator);
+        }
+
+        if ($request->file('archivo')->isValid()) {
+            $ubicacion = $request->archivo->store('tareas');
+            $archivo = new Archivo();
+            $archivo->task_id = $request->task_id;
+            $archivo->ubicacion = $ubicacion;
+            $archivo->nombre_original = $request->archivo->getClientOriginalName();
+            $archivo->mime = $request->archivo->getClientMimeType();
+            $archivo->save();
+            $student = User::find(Auth::id())->userable;
+            $student->tasks()->updateExistingPivot($request->task_id, [
+                'fileUploaded' => $archivo->ubicacion,
+            ]);
+            return redirect(self::HOME);
+        }
+    }
     /*
     -------------------------------------------------------------------------------------------------
     Mostrar
@@ -47,8 +76,9 @@ class StudentController extends Controller
 
     public function taskShow(Request $request)
     {
-        $tasks = Subject::find($request->subject_id)->tasks;
-        return redirect(self::HOME)->with(compact('tasks'));
+        $tasks = Subject::find($request->subject_id)->tasks->load('students');
+        $subject_id = $request->subject_id;
+        return redirect(self::HOME)->with(compact('tasks', 'subject_id'));
     }
     /*
     -------------------------------------------------------------------------------------------------
@@ -59,6 +89,14 @@ class StudentController extends Controller
     {
         $teacher = User::find(Auth::id())->userable;
         $teacher->subjects()->detach($id);
+        return redirect(self::HOME);
+    }
+    public function fileDelete($id)
+    {
+        $student = User::find(Auth::id())->userable;
+        $student->tasks()->updateExistingPivot($id, [
+            'fileUploaded' => null,
+        ]);
         return redirect(self::HOME);
     }
 }
