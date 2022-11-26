@@ -156,6 +156,7 @@
                         <th>Código del Alumno</th>
                         <th>Nombre del Alumno</th>
                         <th>Semestre del Alumno</th>
+                        <th>Correo del alumno</th>
                         <th>Dar de baja</th>
                     </tr>
 
@@ -168,6 +169,7 @@
                                 <th>{{ $student->id }}</th>
                                 <th>{{ $student->name }}</th>
                                 <th>{{ $student->semester }}</th>
+                                <th>{{ $student->user->email }}</th>
                                 <th><a href="/home/eliminarStudent/{{ $student->id }}">Eliminar</a></th>
                             </tr>
                         @endforeach
@@ -240,6 +242,7 @@
                     <tr class="table-active">
                         <td>Código del profesor</td>
                         <td>Nombre del Profesor</td>
+                        <td>Correo del Profesor</td>
                         <td>Dar de baja</td>
                         <!-- <td>Dar de baja</td> -->
                     </tr>
@@ -251,6 +254,7 @@
                             <tr class="table-active">
                                 <th>{{ $teacher->id }}</th>
                                 <th>{{ $teacher->name }}</th>
+                                <th>{{ $teacher->user->email }}</th>
                                 <th><a href="/home/eliminarTeacher/{{ $teacher->id }}">Eliminar</a></th>
                             </tr>
                         @endforeach
