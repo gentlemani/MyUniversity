@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StudentFileRequest;
 use App\Models\Archivo;
+use App\Models\Schoolarship;
+use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Task;
 use App\Models\User;
@@ -24,7 +26,9 @@ class StudentController extends Controller
         }
         $subjects = Subject::all();
         $subjectEnrolled = User::find(Auth::id())->userable->subjects;
-        return view('home.indexStudent', compact('subjects', 'subjectEnrolled'));
+        $becas = Schoolarship::all();
+        $student = User::find(Auth::id())->userable;
+        return view('home.indexStudent', compact('subjects', 'subjectEnrolled', 'becas', 'student'));
     }
     /*
     -------------------------------------------------------------------------------------------------
@@ -35,16 +39,30 @@ class StudentController extends Controller
     {
         $student = User::find(Auth::id())->userable;
         $student->subjects()->syncWithoutDetaching($request->subject_id);
+        $tasks = $student->subjects->find($request->subject_id)->tasks;
+        foreach ($tasks as $task) {
+            $task->students()->syncWithoutDetaching($student->id);
+        }
+        return redirect(self::HOME);
+    }
+    public function becaEnroll(Request $request)
+    {
+        $student = User::find(Auth::id())->userable;
+        $student->schoolarship_id = $request->schoolarship_id;
+        $student->save();
         return redirect(self::HOME);
     }
     public function fileStore(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'file' => 'required',
+            'archivo' => 'required',
         ]);
         if ($validator->fails()) {
-
-            $tasks = Subject::find($request->subject_id)->tasks->load('students');
+            $tasks = User::find(Auth::id())->userable->tasks;
+            $validator->errors()->add(
+                'file',
+                'Something is wrong with this field!'
+            );
             return redirect(self::HOME)->with(compact('tasks'))->withErrors($validator);
         }
 
@@ -76,9 +94,16 @@ class StudentController extends Controller
 
     public function taskShow(Request $request)
     {
-        $tasks = Subject::find($request->subject_id)->tasks->load('students');
+        $tasks = User::find(Auth::id())->userable->tasks;
         $subject_id = $request->subject_id;
         return redirect(self::HOME)->with(compact('tasks', 'subject_id'));
+    }
+
+    public function taskSearch(Request $request)
+    {
+        $user = User::find(Auth::id())->userable;
+        $taskSearch = $user->tasks()->where('name', 'like', '%' . $request->name . '%')->get();
+        return redirect(self::HOME)->with(compact('taskSearch'));
     }
     /*
     -------------------------------------------------------------------------------------------------
@@ -87,8 +112,13 @@ class StudentController extends Controller
     */
     public function subjectDelete($id)
     {
-        $teacher = User::find(Auth::id())->userable;
-        $teacher->subjects()->detach($id);
+        $student = User::find(Auth::id())->userable;
+
+        $tasks = $student->subjects->find($id)->tasks;
+        foreach ($tasks as $task) {
+            $task->students()->detach($student->id);
+        }
+        $student->subjects()->detach($id);
         return redirect(self::HOME);
     }
     public function fileDelete($id)
@@ -97,6 +127,13 @@ class StudentController extends Controller
         $student->tasks()->updateExistingPivot($id, [
             'fileUploaded' => null,
         ]);
+        return redirect(self::HOME);
+    }
+    public function shoolarshipDelete()
+    {
+        $student = User::find(Auth::id())->userable;
+        $student->schoolarship_id = null;
+        $student->save();
         return redirect(self::HOME);
     }
 }

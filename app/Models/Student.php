@@ -34,4 +34,9 @@ class Student extends Model
     {
         return $this->belongsToMany(Attendance::class)->withPivot('status');
     }
+    //Relación muchos a uno
+    public function schoolarship()
+    {
+        return $this->belongsTo(Schoolarship::class);
+    }
 }

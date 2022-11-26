@@ -326,7 +326,8 @@
                         <th>Descripción del trabajo</th>
                         <th>Fecha del Trabajo</th>
                         <th>Materia</th>
-                        <th>Eliminar Trabajo</th>
+                        <th>Estudiante</th>
+                        <th>Trabajo</th>
                     </tr>
                     @if (session('tasks'))
                         @foreach (session('tasks') as $task)
@@ -334,9 +335,30 @@
                                 <td>{{ $task->name }}</td>
                                 <td>{{ $task->description }}</td>
                                 <td>{{ $task->date }}</td>
-                                <td>{{ @array_search($task->subject_id, $subjects->pluck('id')->toArray()) !== true ? $subjects[0]->name : '' }}
+                                <td>{{ $subjects[@array_search($task->subject_id, $subjects->pluck('id')->toArray())]->name }}
                                 </td>
-                                <td><a href="/docente/taskDelete/{{ $task->id }}">Eliminar</a></td>
+                                <td>
+                                    <ol>
+                                        @foreach ($task->students as $student)
+                                            <li>{{ $student->name }}</li>
+                                        @endforeach
+                                    </ol>
+                                </td>
+                                <td>
+                                    <div>
+                                        <ol>
+                                            @foreach ($task->students as $student)
+                                                <li>
+                                                    @if ($student->pivot->fileUploaded != null)
+                                                        <a href="/{{ $student->pivot->fileUploaded }}">Descargar</a>
+                                                    @else
+                                                        <p>Trabajo no entregado</p>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        </ol>
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                     @endif

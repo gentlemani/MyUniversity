@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BecaRegistrationRequest;
 use App\Http\Requests\StudentRegistrationRequest;
 use App\Http\Requests\SubjectRegistrationRequest;
 use App\Http\Requests\TeacherRegistrationRequest;
+use App\Models\Schoolarship;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
@@ -27,10 +29,13 @@ class HomeController extends Controller
         $searchStudent = $request->session()->get('searchStudent');
         $searchTeacher = $request->session()->get('searchTeacher');
         $searchSubject = $request->session()->get('searchSubject');
+        $searchBeca = $request->session()->get('searchBeca');
 
-        return view('home.indexCoordinator', compact('searchStudent', 'searchTeacher', 'searchSubject'));
+        return view('home.indexCoordinator', compact('searchStudent', 'searchTeacher', 'searchSubject', 'searchBeca'));
     }
-
+    // ...........................................................................................
+    // Insersiones
+    // ...........................................................................................
     public function studentRegistration(StudentRegistrationRequest $request)
     {
         $coordinatorId = User::find(Auth::id())->userable->id;
@@ -54,6 +59,14 @@ class HomeController extends Controller
         Subject::create($request->all());
         return redirect(self::HOME);
     }
+    public function becaRegistration(BecaRegistrationRequest $request)
+    {
+        Schoolarship::create($request->all());
+        return redirect(self::HOME);
+    }
+    // ...........................................................................................
+    // Busquedas
+    // ...........................................................................................
     public function studentSearch(Request $request)
     {
         $searchStudent = Student::where('name', 'LIKE', '%' . $request->name . '%')->get();
@@ -73,6 +86,15 @@ class HomeController extends Controller
         $searchSubject->consultaRealizada = true;
         return redirect(self::HOME)->with(compact('searchSubject'));
     }
+    public function becaSearch(Request $request)
+    {
+        $searchBeca = Schoolarship::where('name', 'LIKE', '%' . $request->name . '%')->get();
+        $searchBeca->consultaRealizada = true;
+        return redirect(self::HOME)->with(compact('searchBeca'));
+    }
+    // ...........................................................................................
+    // Eliminaciones
+    // ...........................................................................................
     public function eliminateTeacher($id)
     {
         $teacher = Teacher::find($id);
@@ -92,6 +114,16 @@ class HomeController extends Controller
     {
         $subject = Subject::find($id);
         $subject->delete();
+        return redirect(self::HOME);
+    }
+    public function eliminateBeca($id)
+    {
+        $beca = Schoolarship::find($id);
+        foreach ($beca->students as $student) {
+            $student->schoolarship_id = null;
+            $student->save();
+        }
+        $beca->delete();
         return redirect(self::HOME);
     }
 }

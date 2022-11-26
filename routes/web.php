@@ -54,12 +54,15 @@ Route::get('/coordinador', [HomeController::class, 'index']);
 Route::post('/home/studentRegistration', [HomeController::class, 'studentRegistration']);
 Route::post('/home/teacherRegistration', [HomeController::class, 'teacherRegistration']);
 Route::post('/home/subjectRegistration', [HomeController::class, 'subjectRegistration']);
+Route::post('/home/becaRegistration', [HomeController::class, 'becaRegistration']);
 Route::post('/home/studentSearch', [HomeController::class, 'studentSearch']);
 Route::post('/home/teacherSearch', [HomeController::class, 'teacherSearch']);
 Route::post('/home/subjectSearch', [HomeController::class, 'subjectSearch']);
+Route::post('/home/becaSearch', [HomeController::class, 'becaSearch']);
 Route::get('/home/eliminarTeacher/{id}', [HomeController::class, 'eliminateTeacher']);
 Route::get('/home/eliminarStudent/{id}', [HomeController::class, 'eliminateStudent']);
 Route::get('/home/eliminarSubject/{id}', [HomeController::class, 'eliminateSubject']);
+Route::get('/home/eliminarBeca/{id}', [HomeController::class, 'eliminateBeca']);
 
 /*
 ------------------------------------------------------------------------------------------------------
@@ -87,11 +90,14 @@ Route::get('/docente/taskDelete/{id}', [TeacherController::class, 'taskDelete'])
 
 Route::get('/alumno', [StudentController::class, 'index']);
 Route::post('/alumno/subjectRegistration', [StudentController::class, 'subjectEnroll']);
+Route::post('/alumno/becaRegistration', [StudentController::class, 'becaEnroll']);
 Route::post('/alumno/fileAdd', [StudentController::class, 'fileStore']);
 Route::get('/alumno/fileDelete/{id}', [StudentController::class, 'fileDelete']);
 Route::post('/alumno/subjectShow', [StudentController::class, 'subjectShow']);
 Route::post('/alumno/taskShow', [StudentController::class, 'taskShow']);
+Route::post('/alumno/taskSearch', [StudentController::class, 'taskSearch']);
 Route::get('/alumno/subjectDelete/{id}', [StudentController::class, 'subjectDelete']);
+Route::get('/alumno/shoolarshipDelete/', [StudentController::class, 'shoolarshipDelete']);
 
 /*
 ------------------------------------------------------------------------------------------------------

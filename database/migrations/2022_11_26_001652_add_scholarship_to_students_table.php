@@ -13,13 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('archivos', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('task_id')->constrained()->onDelete('cascade');
-            $table->string('ubicacion');
-            $table->string('nombre_original');
-            $table->string('mime');
-            $table->timestamps();
+        Schema::table('students', function (Blueprint $table) {
+            $table->foreignId('schoolarship_id')->nullable()->default(null);
         });
     }
 
@@ -30,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('archivos');
+        Schema::table('students', function (Blueprint $table) {
+            $table->dropColumn('scholarship_id');
+        });
     }
 };

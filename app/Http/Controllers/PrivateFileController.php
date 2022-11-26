@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Archivo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -17,7 +18,8 @@ class PrivateFileController extends Controller
         }
         $path = "tareas/{$file}";
         if (Storage::exists($path)) {
-            return Storage::download($path);
+            $file = Archivo::Where("ubicacion", $path)->first();
+            return Storage::download($path, $file->nombre_original, [$file->mime]);
         }
         return back();
     }

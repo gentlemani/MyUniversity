@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('semester');
             $table->string('degree');
             $table->foreignId('coordinator_id')->constrained()->onDelete('cascade');
+            $table->foreignId('schoolarship_id')->nullable()->default(null);
         });
     }
 
