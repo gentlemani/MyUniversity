@@ -328,6 +328,7 @@
                         <th>Materia</th>
                         <th>Estudiante</th>
                         <th>Trabajo</th>
+                        <th>Eliminar trabajos</th>
                     </tr>
                     @if (session('tasks'))
                         @foreach (session('tasks') as $task)
@@ -359,6 +360,7 @@
                                         </ol>
                                     </div>
                                 </td>
+                                <td><a href="/docente/taskDelete/{{ $task->id }}">Eliminar</a></td>
                             </tr>
                         @endforeach
                     @endif

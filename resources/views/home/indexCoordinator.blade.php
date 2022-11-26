@@ -244,7 +244,6 @@
                         <td>Nombre del Profesor</td>
                         <td>Correo del Profesor</td>
                         <td>Dar de baja</td>
-                        <!-- <td>Dar de baja</td> -->
                     </tr>
                     @if ($searchTeacher)
                         <script>
